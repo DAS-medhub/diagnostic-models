@@ -27,35 +27,43 @@
       --text-secondary: #64748b;
       --text-light: #94a3b8;
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --radius: 8px;
+      --radius: 12px;
       --gradient-secondary: linear-gradient(135deg, #fd9150, #ffb38a);
       --gradient-primary: linear-gradient(135deg, #00be64, #33d483);
+      --sidebar-width: 280px;
     }
+    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+    
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--light-bg);
       color: var(--text-primary);
       line-height: 1.6;
+      font-size: 14px;
     }
+    
     .app-container {
       display: flex;
       min-height: 100vh;
     }
+    
     /* Sidebar */
     .sidebar {
-      width: 280px;
-      background: var(--gradient-primary);
+      width: var(--sidebar-width);
+      background: rgb(122, 50, 2);
       padding: 0;
       display: flex;
       flex-direction: column;
       z-index: 10;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
     }
+    
     .logo-section {
       padding: 24px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -63,6 +71,7 @@
       align-items: center;
       gap: 12px;
     }
+    
     .logo-icon {
       width: 40px;
       height: 40px;
@@ -71,82 +80,101 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: var(--gradient-primary);
       font-size: 20px;
     }
+    
     .logo-text {
       font-weight: 700;
       font-size: 18px;
       color: white;
     }
+    
     .logo-subtitle {
       font-size: 12px;
-      color: rgba(255, 255, 255, 0.8);
+      color:white;
       margin-top: 2px;
     }
+    
     .nav-section {
       padding: 16px 0;
       flex: 1;
     }
+    
     .nav-item {
       display: flex;
       align-items: center;
-      padding: 12px 24px;
-      color: rgba(255, 255, 255, 0.8);
+      padding: 14px 24px;
+      color: white;
       text-decoration: none;
       transition: all 0.2s;
       border-left: 3px solid transparent;
       font-weight: 500;
       cursor: pointer;
+      margin: 4px 0;
     }
+    
     .nav-item:hover {
       background-color: rgba(255, 255, 255, 0.1);
-      color: white;
+      color: var(--gradient-primary);
     }
+    
     .nav-item.active {
       background-color: rgba(255, 255, 255, 0.15);
-      color: white;
+      color: var(--primary);
       border-left-color: white;
     }
+    
     .nav-item i {
       margin-right: 12px;
       width: 20px;
       text-align: center;
       font-size: 18px;
     }
+    
     /* Main Content */
     .main-content {
       flex: 1;
       padding: 24px;
       overflow-y: auto;
       background-color: #f8fafc;
+      transition: all 0.3s ease;
     }
+    
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
     }
+    
     .header h1 {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 700;
       color: var(--text-primary);
       position: relative;
+      padding-bottom: 8px;
     }
+    
     .header h1:after {
       content: '';
       position: absolute;
-      bottom: -5px;
+      bottom: 0;
       left: 0;
-      width: 50px;
-      height: 3px;
+      width: 60px;
+      height: 4px;
       background: var(--gradient-primary);
       border-radius: 2px;
     }
+    
     .header-actions {
       display: flex;
       gap: 12px;
+      flex-wrap: wrap;
     }
+    
     .btn {
       padding: 10px 16px;
       border-radius: var(--radius);
@@ -158,43 +186,53 @@
       gap: 8px;
       transition: all 0.2s;
       border: none;
+      outline: none;
     }
+    
     .btn-primary {
       background: var(--gradient-primary);
       color: white;
-      box-shadow: 0 2px 4px rgba(253, 145, 80, 0.3);
+      box-shadow: 0 2px 4px rgba(0, 190, 100, 0.3);
     }
+    
     .btn-primary:hover {
       background: var(--primary-dark);
-      box-shadow: 0 4px 8px rgba(253, 145, 80, 0.4);
+      box-shadow: 0 4px 8px rgba(0, 190, 100, 0.4);
       transform: translateY(-1px);
     }
+    
     .btn-secondary {
       background: var(--card-bg);
       color: var(--text-primary);
       border: 1px solid var(--border);
     }
+    
     .btn-secondary:hover {
       background: #f1f5f9;
       border-color: var(--primary);
     }
+    
     .btn-success {
       background: var(--gradient-secondary);
       color: white;
-      box-shadow: 0 2px 4px rgba(0, 190, 100, 0.3);
+      box-shadow: 0 2px 4px rgba(253, 145, 80, 0.3);
     }
+    
     .btn-success:hover {
       background: var(--secondary-dark);
-      box-shadow: 0 4px 8px rgba(0, 190, 100, 0.4);
+      box-shadow: 0 4px 8px rgba(253, 145, 80, 0.4);
       transform: translateY(-1px);
     }
+    
     .btn-danger {
       background: var(--danger);
       color: white;
     }
+    
     .btn-danger:hover {
       background: #d32f2f;
     }
+    
     /* Cards */
     .card {
       background: var(--card-bg);
@@ -205,10 +243,12 @@
       transition: transform 0.2s, box-shadow 0.2s;
       border: 1px solid var(--border);
     }
+    
     .card:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     }
+    
     .card-header {
       padding: 20px 24px;
       border-bottom: 1px solid var(--border);
@@ -217,6 +257,7 @@
       align-items: center;
       background: rgba(253, 145, 80, 0.05);
     }
+    
     .card-title {
       font-size: 18px;
       font-weight: 600;
@@ -225,12 +266,15 @@
       align-items: center;
       gap: 8px;
     }
+    
     .card-title i {
       color: var(--primary);
     }
+    
     .card-body {
       padding: 24px;
     }
+    
     /* Tabs */
     .tabs {
       display: flex;
@@ -238,6 +282,7 @@
       border-bottom: 1px solid var(--border);
       overflow-x: auto;
     }
+    
     .tab {
       padding: 16px 24px;
       cursor: pointer;
@@ -247,42 +292,64 @@
       white-space: nowrap;
       border-bottom: 2px solid transparent;
     }
+    
     .tab.active {
       color: var(--primary);
       border-bottom-color: var(--primary);
     }
+    
     .tab-content {
       display: none;
     }
+    
     .tab-content.active {
       display: block;
     }
+    
     /* Form Elements */
     .form-section {
       margin-bottom: 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
     }
+    
     .section-title {
       font-size: 16px;
       font-weight: 600;
-      margin-bottom: 16px;
+      margin-bottom: 0;
       color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      background: rgba(253, 145, 80, 0.05);
+      cursor: pointer;
+      transition: background 0.2s;
     }
+    
+    .section-title:hover {
+      background: rgba(253, 145, 80, 0.08);
+    }
+    
     .section-title i {
       color: var(--primary);
     }
+    
+    .section-content {
+      padding: 20px;
+    }
+    
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 16px;
     }
+    
     .form-group {
       margin-bottom: 16px;
     }
+    
     .form-label {
       display: block;
       margin-bottom: 6px;
@@ -290,6 +357,7 @@
       font-size: 14px;
       color: var(--text-primary);
     }
+    
     .form-control {
       width: 100%;
       padding: 10px 12px;
@@ -299,19 +367,23 @@
       background: var(--card-bg);
       transition: all 0.2s;
     }
+    
     .form-control:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(253, 145, 80, 0.1);
+      box-shadow: 0 0 0 3px rgba(0, 190, 100, 0.1);
     }
+    
     /* Search */
     .search-bar {
       position: relative;
       margin-bottom: 20px;
     }
+    
     .search-input {
       padding-left: 40px;
     }
+    
     .search-icon {
       position: absolute;
       left: 12px;
@@ -319,6 +391,7 @@
       transform: translateY(-50%);
       color: var(--text-light);
     }
+    
     .search-results {
       position: absolute;
       background: var(--card-bg);
@@ -332,16 +405,19 @@
       border-radius: 0 0 var(--radius) var(--radius);
       box-shadow: var(--shadow);
     }
+    
     .search-result-item {
       padding: 10px 16px;
       cursor: pointer;
       border-bottom: 1px solid var(--border);
       font-size: 14px;
     }
+    
     .search-result-item:hover {
       background: rgba(253, 145, 80, 0.05);
       color: var(--primary);
     }
+    
     /* Model Info */
     .model-info {
       background: rgba(253, 145, 80, 0.05);
@@ -351,9 +427,11 @@
       font-size: 14px;
       border-left: 3px solid var(--primary);
     }
+    
     .model-info strong {
       color: var(--primary);
     }
+    
     /* Results */
     .result-container {
       margin-top: 24px;
@@ -362,62 +440,76 @@
       display: none;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
+    
     .result-diabetes {
       background: rgba(229, 57, 53, 0.05);
       border-left: 4px solid var(--danger);
     }
+    
     .result-prediabetes {
       background: rgba(255, 179, 0, 0.05);
       border-left: 4px solid var(--warning);
     }
+    
     .result-nondiabetes {
       background: rgba(0, 190, 100, 0.05);
       border-left: 4px solid var(--success);
     }
+    
     .result-heart-disease {
       background: rgba(229, 57, 53, 0.05);
       border-left: 4px solid var(--danger);
     }
+    
     .result-no-heart-disease {
       background: rgba(0, 190, 100, 0.05);
       border-left: 4px solid var(--success);
     }
+    
     .result-title {
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 12px;
     }
+    
     .result-details {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 12px;
     }
+    
     .result-item {
       display: flex;
       flex-direction: column;
     }
+    
     .result-label {
       font-size: 12px;
       color: var(--text-secondary);
       margin-bottom: 4px;
     }
+    
     .result-value {
       font-size: 16px;
       font-weight: 600;
     }
+    
     .result-actions {
       margin-top: 16px;
       display: flex;
       gap: 12px;
     }
+    
     /* History */
     .history-section {
       margin-top: 40px;
     }
+    
     .history-table {
       width: 100%;
       border-collapse: collapse;
     }
+    
     .history-table th {
       background: rgba(253, 145, 80, 0.05);
       padding: 12px 16px;
@@ -427,18 +519,22 @@
       color: var(--text-secondary);
       border-bottom: 1px solid var(--border);
     }
+    
     .history-table td {
       padding: 12px 16px;
       border-bottom: 1px solid var(--border);
       font-size: 14px;
     }
+    
     .history-table tr:hover {
       background: rgba(253, 145, 80, 0.03);
     }
+    
     .history-actions {
       display: flex;
       gap: 8px;
     }
+    
     /* Loading */
     .loading {
       display: none;
@@ -446,6 +542,7 @@
       padding: 20px;
       color: var(--primary);
     }
+    
     .spinner {
       border: 3px solid rgba(253, 145, 80, 0.2);
       border-top: 3px solid var(--primary);
@@ -455,10 +552,12 @@
       animation: spin 1s linear infinite;
       margin: 0 auto 10px;
     }
+    
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    
     /* Model Status */
     .model-status-container {
       display: grid;
@@ -466,6 +565,7 @@
       gap: 16px;
       margin-bottom: 24px;
     }
+    
     .model-status-card {
       background: var(--card-bg);
       border-radius: var(--radius);
@@ -476,41 +576,52 @@
       gap: 12px;
       transition: transform 0.2s;
     }
+    
     .model-status-card:hover {
       transform: translateY(-2px);
     }
+    
     .model-status-card.ready {
       border-left-color: var(--success);
     }
+    
     .model-status-card.loading {
       border-left-color: var(--warning);
     }
+    
     .model-status-card.error {
       border-left-color: var(--danger);
     }
+    
     .status-indicator {
       width: 12px;
       height: 12px;
       border-radius: 50%;
     }
+    
     .status-ready {
       background: var(--success);
     }
+    
     .status-loading {
       background: var(--warning);
     }
+    
     .status-error {
       background: var(--danger);
     }
+    
     .model-status-info h4 {
       font-size: 14px;
       font-weight: 600;
       margin-bottom: 4px;
     }
+    
     .model-status-info p {
       font-size: 12px;
       color: var(--text-secondary);
     }
+    
     .model-about-link {
       font-size: 12px;
       color: var(--primary);
@@ -518,6 +629,7 @@
       text-decoration: underline;
       align-self: flex-start;
     }
+    
     .model-features-list {
       display: none;
       background: rgba(0, 190, 100, 0.05);
@@ -528,9 +640,11 @@
       max-height: 150px;
       overflow-y: auto;
     }
+    
     .model-features-list.active {
       display: block;
     }
+    
     /* Modal */
     .modal {
       display: none;
@@ -544,6 +658,7 @@
       background-color: rgba(0,0,0,0.4);
       padding-top: 60px;
     }
+    
     .modal-content {
       background-color: var(--card-bg);
       margin: 5% auto 15% auto;
@@ -554,6 +669,7 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
+    
     .close {
       color: var(--text-light);
       float: right;
@@ -561,12 +677,14 @@
       font-weight: bold;
       cursor: pointer;
     }
+    
     .close:hover,
     .close:focus {
       color: var(--text-primary);
       text-decoration: none;
       cursor: pointer;
     }
+    
     /* Badge */
     .badge {
       display: inline-block;
@@ -575,18 +693,22 @@
       font-size: 12px;
       font-weight: 600;
     }
+    
     .badge-primary {
       background: rgba(253, 145, 80, 0.1);
       color: var(--primary);
     }
+    
     .badge-success {
       background: rgba(0, 190, 100, 0.1);
       color: var(--success);
     }
+    
     .badge-danger {
       background: rgba(229, 57, 53, 0.1);
       color: var(--danger);
     }
+    
     /* Report Header Grid — IMPROVED FOR TWO-COLUMN ALIGNMENT */
     .report-header-grid {
       display: grid;
@@ -598,11 +720,13 @@
       border-radius: var(--radius);
       border-left: 4px solid var(--primary);
     }
+    
     .patient-details, .professional-details {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
+    
     .patient-details h3, .professional-details h3 {
       font-size: 16px;
       font-weight: 600;
@@ -611,23 +735,27 @@
       border-bottom: 1px solid var(--border);
       padding-bottom: 5px;
     }
+    
     .detail-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 100%;
     }
+    
     .detail-label {
       font-weight: 500;
       color: var(--text-secondary);
       min-width: 180px;
     }
+    
     .detail-value {
       font-weight: 500;
       color: var(--text-primary);
       flex: 1;
       text-align: right;
     }
+    
     .detail-value input {
       width: 100%;
       padding: 6px 8px;
@@ -635,70 +763,150 @@
       border-radius: 4px;
       font-size: 14px;
     }
+    
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    
     /* Responsive */
     @media (max-width: 1024px) {
-      .app-container {
-        flex-direction: column;
-      }
       .sidebar {
+        position: fixed;
+        height: 100vh;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
         width: 100%;
       }
+      
+      .mobile-menu-toggle {
+        display: flex;
+      }
+      
       .nav-section {
         display: flex;
-        overflow-x: auto;
+        flex-direction: column;
+        overflow-y: auto;
         padding: 0;
       }
+      
       .nav-item {
         border-left: none;
         border-bottom: 3px solid transparent;
         white-space: nowrap;
       }
+      
       .nav-item.active {
         border-left: none;
         border-bottom-color: white;
       }
     }
+    
     @media (max-width: 768px) {
       .form-grid {
         grid-template-columns: 1fr;
       }
+      
       .header {
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
       }
+      
       .header-actions {
         width: 100%;
         justify-content: space-between;
       }
+      
       .model-status-container {
         grid-template-columns: 1fr;
       }
+      
       .result-details {
         grid-template-columns: 1fr;
       }
+      
       .report-header-grid {
         grid-template-columns: 1fr;
         gap: 15px;
       }
+      
       .detail-row {
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
       }
+      
       .detail-value {
         text-align: left;
       }
+      
       .detail-value input {
         text-align: left;
+      }
+      
+      .history-actions {
+        flex-direction: column;
+      }
+      
+      .result-actions {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .main-content {
+        padding: 16px;
+      }
+      
+      .card-body {
+        padding: 16px;
+      }
+      
+      .header h1 {
+        font-size: 24px;
+      }
+      
+      .section-content {
+        padding: 16px;
       }
     }
   </style>
 </head>
 <body>
+  <button class="mobile-menu-toggle" id="mobileMenuToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+  
   <div class="app-container">
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
       <div class="logo-section">
         <div class="logo-icon">
           <i class="fas fa-stethoscope"></i>
@@ -723,6 +931,7 @@
         </div>
       </div>
     </div>
+    
     <!-- Main Content -->
     <div class="main-content">
       <div class="header">
@@ -739,6 +948,7 @@
           </button>
         </div>
       </div>
+      
       <!-- Dashboard Tab -->
       <div class="tab-content active" id="dashboard-tab">
         <div class="card">
@@ -789,6 +999,7 @@
             </div>
           </div>
         </div>
+        
         <div class="card">
           <div class="card-header">
             <div class="card-title">
@@ -803,6 +1014,7 @@
           </div>
         </div>
       </div>
+      
       <!-- Diabetes Tab -->
       <div class="tab-content" id="diabetes-tab">
         <div class="card">
@@ -810,101 +1022,120 @@
             <div class="model-info">
               <strong>Model:</strong> Diabetes Type 2 (Auto-selects best model: 8, 17, or 43 features) • <strong>Basic:</strong> Gender, Age, Hypertension, Heart Disease, Smoking History, BMI, HbA1c, Blood Glucose • Use search to add more parameters for better accuracy.
             </div>
+            
             <div class="search-bar">
               <i class="fas fa-search search-icon"></i>
               <input type="text" id="search-diabetes" class="form-control search-input" placeholder="Search for additional parameters...">
               <div class="search-results" id="search-results-diabetes"></div>
             </div>
+            
             <div id="form-diabetes">
               <div class="form-section">
-                <div class="section-title">
+                <div class="section-title" onclick="toggleSection(this)">
                   <i class="fas fa-user"></i>
                   <span>Patient Information</span>
+                  <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
                 </div>
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label for="gender-diabetes" class="form-label">Gender</label>
-                    <select id="gender-diabetes" class="form-control">
-                      <option value="">Select Gender</option>
-                      <option value="Female">Female</option>
-                      <option value="Male">Male</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="age-diabetes" class="form-label">Age (18-100)</label>
-                    <input type="number" id="age-diabetes" class="form-control" min="18" max="100" placeholder="Enter age">
-                  </div>
-                  <div class="form-group">
-                    <label for="hypertension-diabetes" class="form-label">Hypertension</label>
-                    <select id="hypertension-diabetes" class="form-control">
-                      <option value="">Select</option>
-                      <option value="0">No</option>
-                      <option value="1">Yes</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="heart_disease-diabetes" class="form-label">Heart Disease</label>
-                    <select id="heart_disease-diabetes" class="form-control">
-                      <option value="">Select</option>
-                      <option value="0">No</option>
-                      <option value="1">Yes</option>
-                    </select>
+                <div class="section-content">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="gender-diabetes" class="form-label">Gender</label>
+                      <select id="gender-diabetes" class="form-control">
+                        <option value="">Select Gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="age-diabetes" class="form-label">Age (18-100)</label>
+                      <input type="number" id="age-diabetes" class="form-control" min="18" max="100" placeholder="Enter age">
+                    </div>
+                    <div class="form-group">
+                      <label for="hypertension-diabetes" class="form-label">Hypertension</label>
+                      <select id="hypertension-diabetes" class="form-control">
+                        <option value="">Select</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="heart_disease-diabetes" class="form-label">Heart Disease</label>
+                      <select id="heart_disease-diabetes" class="form-control">
+                        <option value="">Select</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
+              
               <div class="form-section">
-                <div class="section-title">
+                <div class="section-title" onclick="toggleSection(this)">
                   <i class="fas fa-smoking"></i>
                   <span>Lifestyle Factors</span>
+                  <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
                 </div>
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label for="smoking_history-diabetes" class="form-label">Smoking History</label>
-                    <select id="smoking_history-diabetes" class="form-control">
-                      <option value="">Select</option>
-                      <option value="No Info">No Info</option>
-                      <option value="current">Current</option>
-                      <option value="ever">Ever</option>
-                      <option value="former">Former</option>
-                      <option value="never">Never</option>
-                      <option value="not current">Not Current</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="bmi-diabetes" class="form-label">BMI</label>
-                    <input type="number" id="bmi-diabetes" class="form-control" step="0.01" placeholder="Enter BMI">
+                <div class="section-content">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="smoking_history-diabetes" class="form-label">Smoking History</label>
+                      <select id="smoking_history-diabetes" class="form-control">
+                        <option value="">Select</option>
+                        <option value="No Info">No Info</option>
+                        <option value="current">Current</option>
+                        <option value="ever">Ever</option>
+                        <option value="former">Former</option>
+                        <option value="never">Never</option>
+                        <option value="not current">Not Current</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="bmi-diabetes" class="form-label">BMI</label>
+                      <input type="number" id="bmi-diabetes" class="form-control" step="0.01" placeholder="Enter BMI">
+                    </div>
                   </div>
                 </div>
               </div>
+              
               <div class="form-section">
-                <div class="section-title">
+                <div class="section-title" onclick="toggleSection(this)">
                   <i class="fas fa-vial"></i>
                   <span>Lab Values</span>
+                  <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
                 </div>
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label for="HbA1c_level-diabetes" class="form-label">HbA1c Level (%)</label>
-                    <input type="number" id="HbA1c_level-diabetes" class="form-control" step="0.01" placeholder="Enter HbA1c">
-                  </div>
-                  <div class="form-group">
-                    <label for="blood_glucose_level-diabetes" class="form-label">Blood Glucose (mg/dL)</label>
-                    <input type="number" id="blood_glucose_level-diabetes" class="form-control" min="80" max="300" placeholder="Enter glucose level">
+                <div class="section-content">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="HbA1c_level-diabetes" class="form-label">HbA1c Level (%)</label>
+                      <input type="number" id="HbA1c_level-diabetes" class="form-control" step="0.01" placeholder="Enter HbA1c">
+                    </div>
+                    <div class="form-group">
+                      <label for="blood_glucose_level-diabetes" class="form-label">Blood Glucose (mg/dL)</label>
+                      <input type="number" id="blood_glucose_level-diabetes" class="form-control" min="80" max="300" placeholder="Enter glucose level">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <button class="btn btn-primary" onclick="predict('diabetes')">
-              <i class="fas fa-heartbeat"></i> Predict Diabetes Risk
-            </button>
+            
+            <div style="text-align: center; margin-top: 24px;">
+              <button class="btn btn-primary" onclick="predict('diabetes')">
+                <i class="fas fa-heartbeat"></i> Predict Diabetes Risk
+              </button>
+            </div>
+            
             <div class="loading" id="loading-diabetes">
               <div class="spinner"></div>
               <div>Analyzing patient data...</div>
             </div>
+            
             <div class="result-container" id="result-diabetes"></div>
           </div>
         </div>
       </div>
+      
       <!-- Heart Tab -->
       <div class="tab-content" id="heart-tab">
         <div class="card">
@@ -912,120 +1143,139 @@
             <div class="model-info">
               <strong>Model:</strong> Heart Disease (11 features) • <strong>Required:</strong> Age, Sex, Chest Pain Type, Resting BP, Cholesterol, Fasting Blood Sugar, Resting ECG, Max Heart Rate, Exercise Angina, Oldpeak, ST Slope
             </div>
+            
             <div class="search-bar">
               <i class="fas fa-search search-icon"></i>
               <input type="text" id="search-heart" class="form-control search-input" placeholder="Search for additional parameters...">
               <div class="search-results" id="search-results-heart"></div>
             </div>
+            
             <div id="form-heart">
               <div class="form-section">
-                <div class="section-title">
+                <div class="section-title" onclick="toggleSection(this)">
                   <i class="fas fa-user"></i>
                   <span>Patient Information</span>
+                  <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
                 </div>
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label for="age-heart" class="form-label">Age</label>
-                    <input type="number" id="age-heart" class="form-control" min="18" max="100" placeholder="Enter age">
-                  </div>
-                  <div class="form-group">
-                    <label for="sex-heart" class="form-label">Sex</label>
-                    <select id="sex-heart" class="form-control">
-                      <option value="">Select</option>
-                      <option value="0">Female</option>
-                      <option value="1">Male</option>
-                    </select>
+                <div class="section-content">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="age-heart" class="form-label">Age</label>
+                      <input type="number" id="age-heart" class="form-control" min="18" max="100" placeholder="Enter age">
+                    </div>
+                    <div class="form-group">
+                      <label for="sex-heart" class="form-label">Sex</label>
+                      <select id="sex-heart" class="form-control">
+                        <option value="">Select</option>
+                        <option value="0">Female</option>
+                        <option value="1">Male</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
+              
               <div class="form-section">
-                <div class="section-title">
+                <div class="section-title" onclick="toggleSection(this)">
                   <i class="fas fa-heartbeat"></i>
                   <span>Symptoms & Vital Signs</span>
+                  <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
                 </div>
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label for="chest_pain_type-heart" class="form-label">Chest Pain Type</label>
-                    <select id="chest_pain_type-heart" class="form-control">
-                      <option value="">Select</option>
-                      <option value="1">Typical Angina</option>
-                      <option value="2">Atypical Angina</option>
-                      <option value="3">Non-Anginal Pain</option>
-                      <option value="4">Asymptomatic</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="resting_bp_s-heart" class="form-label">Resting BP (systolic)</label>
-                    <input type="number" id="resting_bp_s-heart" class="form-control" placeholder="Enter resting BP">
-                  </div>
-                  <div class="form-group">
-                    <label for="max_heart_rate-heart" class="form-label">Max Heart Rate</label>
-                    <input type="number" id="max_heart_rate-heart" class="form-control" placeholder="Enter max heart rate">
-                  </div>
-                  <div class="form-group">
-                    <label for="exercise_angina-heart" class="form-label">Exercise Angina</label>
-                    <select id="exercise_angina-heart" class="form-control">
-                      <option value="">Select</option>
-                      <option value="0">No</option>
-                      <option value="1">Yes</option>
-                    </select>
+                <div class="section-content">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="chest_pain_type-heart" class="form-label">Chest Pain Type</label>
+                      <select id="chest_pain_type-heart" class="form-control">
+                        <option value="">Select</option>
+                        <option value="1">Typical Angina</option>
+                        <option value="2">Atypical Angina</option>
+                        <option value="3">Non-Anginal Pain</option>
+                        <option value="4">Asymptomatic</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="resting_bp_s-heart" class="form-label">Resting BP (systolic)</label>
+                      <input type="number" id="resting_bp_s-heart" class="form-control" placeholder="Enter resting BP">
+                    </div>
+                    <div class="form-group">
+                      <label for="max_heart_rate-heart" class="form-label">Max Heart Rate</label>
+                      <input type="number" id="max_heart_rate-heart" class="form-control" placeholder="Enter max heart rate">
+                    </div>
+                    <div class="form-group">
+                      <label for="exercise_angina-heart" class="form-label">Exercise Angina</label>
+                      <select id="exercise_angina-heart" class="form-control">
+                        <option value="">Select</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
+              
               <div class="form-section">
-                <div class="section-title">
+                <div class="section-title" onclick="toggleSection(this)">
                   <i class="fas fa-vial"></i>
                   <span>Lab & ECG Values</span>
+                  <i class="fas fa-chevron-down" style="margin-left: auto;"></i>
                 </div>
-                <div class="form-grid">
-                  <div class="form-group">
-                    <label for="cholesterol-heart" class="form-label">Cholesterol</label>
-                    <input type="number" id="cholesterol-heart" class="form-control" placeholder="Enter cholesterol">
-                  </div>
-                  <div class="form-group">
-                    <label for="fasting_blood_sugar-heart" class="form-label">Fasting Blood Sugar</label>
-                    <select id="fasting_blood_sugar-heart" class="form-control">
-                      <option value="">Select</option>
-                      <option value="0"><=120 mg/dl</option>
-                      <option value="1">>120 mg/dl</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="resting_ecg-heart" class="form-label">Resting ECG</label>
-                    <select id="resting_ecg-heart" class="form-control">
-                      <option value="">Select</option>
-                      <option value="0">Normal</option>
-                      <option value="1">ST-T Abnormal</option>
-                      <option value="2">LV Hypertrophy</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="oldpeak-heart" class="form-label">Oldpeak</label>
-                    <input type="number" id="oldpeak-heart" class="form-control" step="0.1" placeholder="Enter oldpeak">
-                  </div>
-                  <div class="form-group">
-                    <label for="st_slope-heart" class="form-label">ST Slope</label>
-                    <select id="st_slope-heart" class="form-control">
-                      <option value="">Select</option>
-                      <option value="1">Up</option>
-                      <option value="2">Flat</option>
-                      <option value="3">Down</option>
-                    </select>
+                <div class="section-content">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="cholesterol-heart" class="form-label">Cholesterol</label>
+                      <input type="number" id="cholesterol-heart" class="form-control" placeholder="Enter cholesterol">
+                    </div>
+                    <div class="form-group">
+                      <label for="fasting_blood_sugar-heart" class="form-label">Fasting Blood Sugar</label>
+                      <select id="fasting_blood_sugar-heart" class="form-control">
+                        <option value="">Select</option>
+                        <option value="0"><=120 mg/dl</option>
+                        <option value="1">>120 mg/dl</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="resting_ecg-heart" class="form-label">Resting ECG</label>
+                      <select id="resting_ecg-heart" class="form-control">
+                        <option value="">Select</option>
+                        <option value="0">Normal</option>
+                        <option value="1">ST-T Abnormal</option>
+                        <option value="2">LV Hypertrophy</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="oldpeak-heart" class="form-label">Oldpeak</label>
+                      <input type="number" id="oldpeak-heart" class="form-control" step="0.1" placeholder="Enter oldpeak">
+                    </div>
+                    <div class="form-group">
+                      <label for="st_slope-heart" class="form-label">ST Slope</label>
+                      <select id="st_slope-heart" class="form-control">
+                        <option value="">Select</option>
+                        <option value="1">Up</option>
+                        <option value="2">Flat</option>
+                        <option value="3">Down</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <button class="btn btn-primary" onclick="predict('heart')">
-              <i class="fas fa-heartbeat"></i> Predict Heart Disease Risk
-            </button>
+            
+            <div style="text-align: center; margin-top: 24px;">
+              <button class="btn btn-primary" onclick="predict('heart')">
+                <i class="fas fa-heartbeat"></i> Predict Heart Disease Risk
+              </button>
+            </div>
+            
             <div class="loading" id="loading-heart">
               <div class="spinner"></div>
               <div>Analyzing patient data...</div>
             </div>
+            
             <div class="result-container" id="result-heart"></div>
           </div>
         </div>
       </div>
+      
       <!-- History Section -->
       <div class="card history-section">
         <div class="card-header">
@@ -1054,6 +1304,7 @@
       </div>
     </div>
   </div>
+  
   <!-- Modal Dialog -->
   <div id="modal" class="modal">
     <div class="modal-content">
@@ -1062,7 +1313,8 @@
       <div id="modal-buttons" style="text-align: right; margin-top: 20px;"></div>
     </div>
   </div>
-  <script>
+  
+ <script>
     // Global variables
     let models = {};
     let predictionHistory = JSON.parse(localStorage.getItem('predictionHistory') || '[]');
@@ -1316,6 +1568,7 @@
       'diabetes': [...new Set([...modelConfigs['diabetes-8'].features, ...modelConfigs['diabetes-17'].features, ...modelConfigs['diabetes-43'].features])],
       'heart': modelConfigs['heart'].features
     };
+   
     // Modal setup
     const modal = document.getElementById('modal');
     const modalMessage = document.getElementById('modal-message');
@@ -1327,11 +1580,13 @@
         closeModal();
       }
     };
+   
     function showMessage(msg) {
       modalMessage.innerHTML = msg.replace(/\n/g, '<br>');
       modalButtons.innerHTML = '<button class="btn btn-primary" onclick="closeModal()">OK</button>';
       modal.style.display = 'block';
     }
+   
     function showConfirm(msg, callback) {
       modalMessage.innerHTML = msg.replace(/\n/g, '<br>');
       modalButtons.innerHTML = `
@@ -1344,9 +1599,11 @@
       };
       modal.style.display = 'block';
     }
+   
     function closeModal() {
       modal.style.display = 'none';
     }
+   
     // Initialize application
     document.addEventListener('DOMContentLoaded', async () => {
       setupNavigation();
@@ -1354,7 +1611,39 @@
       loadHistory();
       await loadAllModels();
       populateModelFeatureLists(); // Populate "About" sections
+     
+      // Mobile menu toggle
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      const sidebar = document.getElementById('sidebar');
+     
+      mobileMenuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+      });
+     
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 1024 &&
+            !sidebar.contains(e.target) &&
+            !mobileMenuToggle.contains(e.target) &&
+            sidebar.classList.contains('active')) {
+          sidebar.classList.remove('active');
+        }
+      });
     });
+   
+    function toggleSection(element) {
+      const content = element.nextElementSibling;
+      const icon = element.querySelector('.fa-chevron-down');
+     
+      if (content.style.display === 'none' || !content.style.display) {
+        content.style.display = 'block';
+        icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+      } else {
+        content.style.display = 'none';
+        icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+      }
+    }
+   
     function populateModelFeatureLists() {
       Object.keys(modelConfigs).forEach(modelId => {
         const listEl = document.getElementById(`features-${modelId}`);
@@ -1364,10 +1653,12 @@
         }
       });
     }
+   
     function toggleModelFeatures(modelId) {
       const list = document.getElementById(`features-${modelId}`);
       list.classList.toggle('active');
     }
+   
     function setupNavigation() {
       document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', () => {
@@ -1376,26 +1667,35 @@
           item.classList.add('active');
           document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
           document.getElementById(`${tabId}-tab`).classList.add('active');
+         
+          // Close sidebar on mobile after navigation
+          if (window.innerWidth <= 1024) {
+            document.getElementById('sidebar').classList.remove('active');
+          }
         });
       });
     }
+   
     function setupSearchFunctionality() {
       ['diabetes', 'heart'].forEach(tabId => {
         const searchInput = document.getElementById(`search-${tabId}`);
         const resultsDiv = document.getElementById(`search-results-${tabId}`);
         if (!searchInput || !resultsDiv) return;
+       
         searchInput.addEventListener('input', () => {
           const query = searchInput.value.toLowerCase();
           if (!query) {
             resultsDiv.style.display = 'none';
             return;
           }
+         
           const matches = featureArrays[tabId].filter(f => f.toLowerCase().includes(query));
-          resultsDiv.innerHTML = matches.map(f => 
+          resultsDiv.innerHTML = matches.map(f =>
             `<div class="search-result-item" onclick="addFeature('${tabId}', '${f}')">${formatLabel(f)}</div>`
           ).join('');
           resultsDiv.style.display = matches.length ? 'block' : 'none';
         });
+       
         document.addEventListener('click', (e) => {
           if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
             resultsDiv.style.display = 'none';
@@ -1403,14 +1703,17 @@
         });
       });
     }
+   
     function addFeature(tabId, feature) {
       const form = document.getElementById(`form-${tabId}`);
       const existing = document.getElementById(`${feature}-${tabId}`);
       if (existing) return;
+     
       const meta = featureMeta[feature] || {type: 'number'};
       const div = document.createElement('div');
       div.className = 'form-group';
       let inputHtml = '';
+     
       if (meta.type === 'select') {
         inputHtml = `<select id="${feature}-${tabId}" class="form-control">
           <option value="">Select</option>
@@ -1423,20 +1726,25 @@
         if (meta.step) attrs += ` step="${meta.step}"`;
         inputHtml = `<input ${attrs}>`;
       }
+     
       div.innerHTML = `
         <label for="${feature}-${tabId}" class="form-label">${formatLabel(feature)}</label>
         ${inputHtml}
       `;
-      const lastSection = form.querySelector('.form-section:last-child .form-grid');
+     
+      const lastSection = form.querySelector('.form-section:last-child .section-content .form-grid');
       if (lastSection) {
         lastSection.appendChild(div);
       }
+     
       document.getElementById(`search-${tabId}`).value = '';
       document.getElementById(`search-results-${tabId}`).style.display = 'none';
     }
+   
     function formatLabel(str) {
       return str.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     }
+   
     function getReadableValue(feature, value) {
       const meta = featureMeta[feature];
       if (meta && meta.type === 'select') {
@@ -1445,6 +1753,7 @@
       }
       return value;
     }
+   
     async function loadAllModels() {
       const modelNames = Object.keys(modelConfigs);
       for (const name of modelNames) {
@@ -1459,18 +1768,23 @@
         }
       }
     }
+   
     function updateModelStatus(modelName, status, message) {
       const statusCard = document.getElementById(`status-${modelName}`);
       if (!statusCard) return;
+     
       statusCard.className = `model-status-card ${status}`;
       const indicator = statusCard.querySelector('.status-indicator');
       const statusText = statusCard.querySelector('p');
+     
       indicator.className = `status-indicator status-${status}`;
       statusText.textContent = message;
     }
+   
     function collectFormData(tabId) {
       const form = document.getElementById(`form-${tabId}`);
       if (!form) return {};
+     
       const data = {};
       const inputs = form.querySelectorAll('.form-control');
       inputs.forEach(input => {
@@ -1479,8 +1793,10 @@
           data[key] = input.value;
         }
       });
+     
       return data;
     }
+   
     function validateInputs(tabId, data) {
       for (const [key, value] of Object.entries(data)) {
         const meta = featureMeta[key];
@@ -1492,10 +1808,12 @@
       }
       return null;
     }
+   
     function selectBestDiabetesModel(data) {
       const diabetesModels = ['diabetes-8', 'diabetes-17', 'diabetes-43'];
       let bestModel = diabetesModels[0];
       let maxMatch = 0;
+     
       diabetesModels.forEach(modelId => {
         const matched = Object.keys(data).filter(key => modelConfigs[modelId].features.includes(key)).length;
         if (matched > maxMatch || (matched === maxMatch && modelConfigs[modelId].features.length > modelConfigs[bestModel].features.length)) {
@@ -1503,37 +1821,40 @@
           bestModel = modelId;
         }
       });
+     
       return bestModel;
     }
-
     // ✅ NEW: Validate required features before prediction
     function validateRequiredFeatures(modelId, data) {
       const required = modelConfigs[modelId].requiredFeatures || [];
       const missing = [];
+     
       for (const feat of required) {
         if (!(feat in data) || data[feat] === '' || data[feat] == null) {
           missing.push(formatLabel(feat));
         }
       }
+     
       return missing;
     }
-
     async function predict(tabId) {
       let modelId = tabId;
       const data = collectFormData(tabId);
       const validationError = validateInputs(tabId, data);
+     
       if (validationError) {
         showMessage(validationError);
         return;
       }
+     
       if (tabId === 'diabetes') {
         modelId = selectBestDiabetesModel(data);
       }
+     
       if (!models[modelId]) {
         showMessage(`Model ${modelId} is not loaded yet. Please wait for the model to load.`);
         return;
       }
-
       // ✅ CHECK REQUIRED FEATURES
       const missingRequired = validateRequiredFeatures(modelId, data);
       if (missingRequired.length > 0) {
@@ -1541,8 +1862,8 @@
         showMessage(`Insufficient data for reliable prediction.<br><br>Please provide the following required fields:<br>${missingList}`);
         return;
       }
-
       showLoading(tabId, true);
+     
       try {
         const config = modelConfigs[modelId];
         const processedInputs = config.preprocess(data);
@@ -1551,14 +1872,16 @@
         const prediction = await models[modelId].predict(inputTensor);
         const prob = (await prediction.data())[0];
         const result = config.interpret(prob);
+       
         displayResult(tabId, result, data, modelId.startsWith('diabetes'));
         logPrediction(modelId, result, data);
+       
         inputTensor.dispose();
         prediction.dispose();
       } catch (error) {
         console.error('Prediction error:', error);
         const resultDiv = document.getElementById(`result-${tabId}`);
-        resultDiv.innerHTML = 
+        resultDiv.innerHTML =
           `<div class="result-heart-disease">
             <div class="result-title">Prediction Error</div>
             <div class="result-details">
@@ -1573,28 +1896,33 @@
         showLoading(tabId, false);
       }
     }
+   
     function showLoading(tabId, show) {
       const loadingElement = document.getElementById(`loading-${tabId}`);
       if (loadingElement) {
         loadingElement.style.display = show ? 'block' : 'none';
       }
     }
+   
     function displayResult(tabId, result, data, isDiabetes) {
       const resultDiv = document.getElementById(`result-${tabId}`);
       if (!resultDiv) return;
+     
       let className = '';
       if (isDiabetes) {
-        className = result.class === 'Diabetic' ? 'result-diabetes' : 
+        className = result.class === 'Diabetic' ? 'result-diabetes' :
                    result.class === 'Prediabetic' ? 'result-prediabetes' : 'result-nondiabetes';
       } else {
         className = result.class === 'Heart Disease' ? 'result-heart-disease' : 'result-no-heart-disease';
       }
+     
       let actions = '';
       if (isDiabetes) {
         actions = `<div class="result-actions">
           <button class="btn btn-secondary" onclick="chainToHeart('${JSON.stringify(data).replace(/"/g, '\\"')}')">Predict Heart Disease</button>
         </div>`;
       }
+     
       resultDiv.className = `result-container ${className}`;
       resultDiv.innerHTML = `
         <div class="result-title">Prediction Result</div>
@@ -1617,9 +1945,11 @@
       resultDiv.style.display = 'block';
       resultDiv.scrollIntoView({ behavior: 'smooth' });
     }
+   
     function chainToHeart(dataStr) {
       const data = JSON.parse(dataStr);
       document.querySelector('.nav-item[data-tab="heart"]').click();
+     
       const mappings = {
         age: 'age-heart',
         gender: 'sex-heart',
@@ -1631,6 +1961,7 @@
         fpg: 'fasting_blood_sugar-heart',
         fasting_blood_sugar: 'fasting_blood_sugar-heart'
       };
+     
       for (const [from, to] of Object.entries(mappings)) {
         if (data[from]) {
           let value = data[from];
@@ -1645,6 +1976,7 @@
         }
       }
     }
+   
     function logPrediction(modelId, result, data) {
       const entry = {
         timestamp: new Date().toLocaleString(),
@@ -1654,21 +1986,25 @@
         risk: result.risk,
         inputs: {...data}
       };
+     
       predictionHistory.unshift(entry);
       if (predictionHistory.length > 100) predictionHistory.pop();
       localStorage.setItem('predictionHistory', JSON.stringify(predictionHistory));
       loadHistory();
       updateRecentPredictions();
     }
+   
     function loadHistory() {
       const tbody = document.getElementById('history-body');
       const noHistory = document.getElementById('no-history');
       if (!tbody || !noHistory) return;
+     
       if (predictionHistory.length === 0) {
         noHistory.style.display = 'block';
         tbody.innerHTML = '';
         return;
       }
+     
       noHistory.style.display = 'none';
       tbody.innerHTML = predictionHistory.slice(0, 20).map((entry, index) => `
         <tr>
@@ -1692,13 +2028,16 @@
         </tr>
       `).join('');
     }
+   
     function updateRecentPredictions() {
       const container = document.getElementById('recent-predictions');
       if (!container) return;
+     
       if (predictionHistory.length === 0) {
         container.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">No recent predictions</p>';
         return;
       }
+     
       const recent = predictionHistory.slice(0, 5);
       container.innerHTML = `
         <div style="display: grid; gap: 12px;">
@@ -1717,6 +2056,7 @@
         </div>
       `;
     }
+   
     function viewPredictionDetails(index) {
       const entry = predictionHistory[index];
       const inputsStr = Object.entries(entry.inputs)
@@ -1725,6 +2065,7 @@
       const msg = `Prediction Details:<br><br>Model: ${entry.model}<br>Result: ${entry.result}<br>Confidence: ${entry.confidence}%<br>Risk: ${entry.risk}<br><br>Inputs:<br>${inputsStr}`;
       showMessage(msg);
     }
+   
     function deletePrediction(index) {
       showConfirm('Are you sure you want to delete this prediction?', (yes) => {
         if (yes) {
@@ -1735,6 +2076,7 @@
         }
       });
     }
+   
     function clearHistory() {
       showConfirm('Are you sure you want to clear all prediction history?', (yes) => {
         if (yes) {
@@ -1745,6 +2087,7 @@
         }
       });
     }
+   
     function clearAllForms() {
       document.querySelectorAll('.form-control').forEach(input => {
         input.value = '';
@@ -1754,6 +2097,7 @@
       });
       showMessage('All forms have been cleared.');
     }
+   
     function showExportForm(exportType, index = null) {
       modalMessage.innerHTML = `
         <h3>Enter Report Details</h3>
@@ -1796,12 +2140,15 @@
       `;
       modal.style.display = 'block';
     }
+   
     async function performExport(exportType, index = null) {
       const patientId = document.getElementById('patient-id').value.trim();
       const patientName = document.getElementById('patient-name').value.trim();
       const doctorId = document.getElementById('doctor-id').value.trim();
       const doctorName = document.getElementById('doctor-name').value.trim();
+     
       closeModal();
+     
       if (exportType === 'csv') {
         exportCSV(patientId, patientName, doctorId, doctorName);
       } else if (exportType === 'pdf') {
@@ -1810,11 +2157,13 @@
         await exportSinglePDFReport(patientId, patientName, doctorId, doctorName, index);
       }
     }
+   
     function exportCSV(patientId, patientName, doctorId, doctorName) {
       const headers = ['Timestamp', 'Model', 'Result', 'Confidence', 'Risk Level', 'Inputs'];
-      const historyData = predictionHistory.map(entry => 
+      const historyData = predictionHistory.map(entry =>
         `"${entry.timestamp}","${entry.model}","${entry.result}","${entry.confidence}%","${entry.risk}","${JSON.stringify(entry.inputs).replace(/"/g, '""')}"`
       );
+     
       const csvContent = [
         `Patient ID,"${patientId}"`,
         `Patient Name,"${patientName}"`,
@@ -1824,6 +2173,7 @@
         headers.join(','),
         ...historyData
       ].join('\n');
+     
       const blob = new Blob([csvContent], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -1834,6 +2184,7 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+   
     async function loadImage(src) {
       return new Promise((resolve, reject) => {
         const img = new Image();
@@ -1850,44 +2201,67 @@
         img.src = src;
       });
     }
+   
     async function exportPDF(patientId, patientName, doctorId, doctorName) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
+     
       try {
         const logoData = await loadImage('dasmedhub-logo.png');
-        doc.addImage(logoData, 'PNG', 10, 10, 40, 40);
+        doc.addImage(logoData, 'PNG', 10, 5, 50, 25);
       } catch (e) {
         console.warn('Logo not loaded');
       }
+     
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(18);
-      doc.text('Clinical History Report', 60, 25);
+      doc.setFontSize(20);
+      doc.setTextColor(0, 128, 0); // Dark green
+      doc.text('Clinical Report', 70, 30);
       doc.setFontSize(12);
-      doc.text(`Patient ID: ${patientId}`, 60, 35);
-      doc.text(`Patient Name: ${patientName}`, 60, 45);
-      doc.text(`Healthcare Professional ID: ${doctorId}`, 60, 55);
-      doc.text(`Healthcare Professional Name: ${doctorName}`, 60, 65);
-      doc.text(`Report Generated: ${new Date().toLocaleString()}`, 60, 75);
+
+      // Reset back to black for the rest
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(12);
+
+      // Patient details (left column)
+      doc.setFont('helvetica', 'bold');
+      doc.text('Patient Details', 10, 35);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Patient ID: ${patientId}`, 10, 45);
+      doc.text(`Patient Name: ${patientName}`, 10, 55);
+
+      // Healthcare Professional details (right column)
+      doc.setFont('helvetica', 'bold');
+      doc.text('Healthcare Professional', 105, 35);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Professional ID: ${doctorId}`, 105, 45);
+      doc.text(`Professional Name: ${doctorName}`, 105, 55);
+      doc.text(`Report Generated: ${new Date().toLocaleString()}`, 105, 65);
+     
       doc.setLineWidth(0.5);
-      doc.line(10, 85, 200, 85);
+      doc.line(10, 75, 200, 75);
+     
       doc.autoTable({
-        startY: 90,
+        startY: 80,
         head: [['Timestamp', 'Model', 'Result', 'Confidence', 'Risk']],
         body: predictionHistory.map(entry => [entry.timestamp, entry.model, entry.result, `${entry.confidence}%`, entry.risk]),
         theme: 'grid',
         headStyles: { fillColor: [0, 190, 100] },
         styles: { fontSize: 10, cellPadding: 3 },
       });
+     
       let y = doc.lastAutoTable.finalY + 20;
       predictionHistory.forEach((entry, idx) => {
         if (y > 250) {
           doc.addPage();
           y = 20;
         }
+       
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
         doc.text(`Inputs for Prediction ${idx + 1} (${entry.timestamp})`, 10, y);
         y += 10;
+       
         doc.autoTable({
           startY: y,
           head: [['Parameter', 'Value']],
@@ -1898,39 +2272,62 @@
           headStyles: { fillColor: [253, 145, 80] },
           styles: { fontSize: 9, cellPadding: 2 },
         });
+       
         y = doc.lastAutoTable.finalY + 15;
       });
+     
       doc.save(`clinical_predictions_history_${new Date().toISOString().split('T')[0]}.pdf`);
     }
+   
     async function exportSinglePDFReport(patientId, patientName, doctorId, doctorName, index) {
       const entry = predictionHistory[index];
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
+     
       try {
         const logoData = await loadImage('dasmedhub-logo.png');
-        doc.addImage(logoData, 'PNG', 10, 10, 40, 40);
+        doc.addImage(logoData, 'PNG', 10, 5, 50, 25);
       } catch (e) {
         console.warn('Logo not loaded');
       }
+     
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(20);
-      doc.text('Clinical Report', 60, 25);
+      doc.setTextColor(0, 128, 0); // Dark green
+      doc.text('Clinical Report', 70, 30);
       doc.setFontSize(12);
-      doc.text(`Patient ID: ${patientId}`, 60, 40);
-      doc.text(`Patient Name: ${patientName}`, 60, 50);
-      doc.text(`Healthcare Professional ID: ${doctorId}`, 60, 60);
-      doc.text(`Healthcare Professional Name: ${doctorName}`, 60, 70);
-      doc.text(`Prediction Timestamp: ${entry.timestamp}`, 60, 80);
-      doc.text(`Report Generated: ${new Date().toLocaleString()}`, 60, 90);
+
+     // Reset back to black for the rest
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(12);
+
+      // Patient details (left column)
+      doc.setFont('helvetica', 'bold');
+      doc.text('Patient Details', 10, 40);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Patient ID: ${patientId}`, 10, 50);
+      doc.text(`Patient Name: ${patientName}`, 10, 60);
+      doc.text(`Prediction Timestamp: ${entry.timestamp}`, 10, 70);
+
+      // Healthcare Professional details (right column)
+      doc.setFont('helvetica', 'bold');
+      doc.text('Healthcare Professional', 105, 40);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Professional ID: ${doctorId}`, 105, 50);
+      doc.text(`Professional Name: ${doctorName}`, 105, 60);
+      doc.text(`Report Generated: ${new Date().toLocaleString()}`, 105, 70);
+     
       doc.setLineWidth(0.5);
-      doc.line(10, 100, 200, 100);
+      doc.line(10, 85, 200, 85);
+     
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
-      doc.text('Prediction Details', 10, 110);
+      doc.text('Prediction Details', 10, 95);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(12);
+     
       doc.autoTable({
-        startY: 115,
+        startY: 100,
         head: [['Detail', 'Value']],
         body: [
           ['Model', entry.model],
@@ -1942,6 +2339,7 @@
         headStyles: { fillColor: [0, 190, 100] },
         styles: { fontSize: 10, cellPadding: 3 },
       });
+     
       let y = doc.lastAutoTable.finalY + 10;
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
@@ -1949,6 +2347,7 @@
       y += 5;
       doc.line(10, y, 200, y);
       y += 10;
+     
       doc.autoTable({
         startY: y,
         head: [['Parameter', 'Value']],
@@ -1959,8 +2358,10 @@
         headStyles: { fillColor: [253, 145, 80] },
         styles: { fontSize: 10, cellPadding: 3 },
       });
+     
       doc.save(`clinical_prediction_${entry.model}_${new Date().toISOString().split('T')[0]}.pdf`);
     }
+   
     function exportHistory() {
       if (predictionHistory.length === 0) {
         showMessage('No prediction history to export.');
@@ -1968,6 +2369,7 @@
       }
       showExportForm('csv');
     }
+   
     function exportHistoryPDF() {
       if (predictionHistory.length === 0) {
         showMessage('No prediction history to export.');
@@ -1975,6 +2377,7 @@
       }
       showExportForm('pdf');
     }
+   
     function exportSinglePDF(index) {
       if (index < 0 || index >= predictionHistory.length) {
         showMessage('Invalid prediction selected.');
@@ -1982,6 +2385,7 @@
       }
       showExportForm('pdf-single', index);
     }
+   
     updateRecentPredictions();
   </script>
 </body>
