@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
   <style>
     :root {
       --secondary: #fd9150;
@@ -30,25 +31,21 @@
       --gradient-secondary: linear-gradient(135deg, #fd9150, #ffb38a);
       --gradient-primary: linear-gradient(135deg, #00be64, #33d483);
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       font-family: 'Inter', sans-serif;
       background-color: var(--light-bg);
       color: var(--text-primary);
       line-height: 1.6;
     }
-
     .app-container {
       display: flex;
       min-height: 100vh;
     }
-
     /* Sidebar */
     .sidebar {
       width: 280px;
@@ -59,7 +56,6 @@
       z-index: 10;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     }
-
     .logo-section {
       padding: 24px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -67,7 +63,6 @@
       align-items: center;
       gap: 12px;
     }
-
     .logo-icon {
       width: 40px;
       height: 40px;
@@ -79,24 +74,20 @@
       color: white;
       font-size: 20px;
     }
-
     .logo-text {
       font-weight: 700;
       font-size: 18px;
       color: white;
     }
-
     .logo-subtitle {
       font-size: 12px;
       color: rgba(255, 255, 255, 0.8);
       margin-top: 2px;
     }
-
     .nav-section {
       padding: 16px 0;
       flex: 1;
     }
-
     .nav-item {
       display: flex;
       align-items: center;
@@ -108,25 +99,21 @@
       font-weight: 500;
       cursor: pointer;
     }
-
     .nav-item:hover {
       background-color: rgba(255, 255, 255, 0.1);
       color: white;
     }
-
     .nav-item.active {
       background-color: rgba(255, 255, 255, 0.15);
       color: white;
       border-left-color: white;
     }
-
     .nav-item i {
       margin-right: 12px;
       width: 20px;
       text-align: center;
       font-size: 18px;
     }
-
     /* Main Content */
     .main-content {
       flex: 1;
@@ -134,21 +121,18 @@
       overflow-y: auto;
       background-color: #f8fafc;
     }
-
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 24px;
     }
-
     .header h1 {
       font-size: 24px;
       font-weight: 700;
       color: var(--text-primary);
       position: relative;
     }
-
     .header h1:after {
       content: '';
       position: absolute;
@@ -159,12 +143,10 @@
       background: var(--gradient-primary);
       border-radius: 2px;
     }
-
     .header-actions {
       display: flex;
       gap: 12px;
     }
-
     .btn {
       padding: 10px 16px;
       border-radius: var(--radius);
@@ -177,51 +159,42 @@
       transition: all 0.2s;
       border: none;
     }
-
     .btn-primary {
       background: var(--gradient-primary);
       color: white;
       box-shadow: 0 2px 4px rgba(253, 145, 80, 0.3);
     }
-
     .btn-primary:hover {
       background: var(--primary-dark);
       box-shadow: 0 4px 8px rgba(253, 145, 80, 0.4);
       transform: translateY(-1px);
     }
-
     .btn-secondary {
       background: var(--card-bg);
       color: var(--text-primary);
       border: 1px solid var(--border);
     }
-
     .btn-secondary:hover {
       background: #f1f5f9;
       border-color: var(--primary);
     }
-
     .btn-success {
       background: var(--gradient-secondary);
       color: white;
       box-shadow: 0 2px 4px rgba(0, 190, 100, 0.3);
     }
-
     .btn-success:hover {
       background: var(--secondary-dark);
       box-shadow: 0 4px 8px rgba(0, 190, 100, 0.4);
       transform: translateY(-1px);
     }
-
     .btn-danger {
       background: var(--danger);
       color: white;
     }
-
     .btn-danger:hover {
       background: #d32f2f;
     }
-
     /* Cards */
     .card {
       background: var(--card-bg);
@@ -232,12 +205,10 @@
       transition: transform 0.2s, box-shadow 0.2s;
       border: 1px solid var(--border);
     }
-
     .card:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
     }
-
     .card-header {
       padding: 20px 24px;
       border-bottom: 1px solid var(--border);
@@ -246,7 +217,6 @@
       align-items: center;
       background: rgba(253, 145, 80, 0.05);
     }
-
     .card-title {
       font-size: 18px;
       font-weight: 600;
@@ -255,15 +225,12 @@
       align-items: center;
       gap: 8px;
     }
-
     .card-title i {
       color: var(--primary);
     }
-
     .card-body {
       padding: 24px;
     }
-
     /* Tabs */
     .tabs {
       display: flex;
@@ -271,7 +238,6 @@
       border-bottom: 1px solid var(--border);
       overflow-x: auto;
     }
-
     .tab {
       padding: 16px 24px;
       cursor: pointer;
@@ -281,25 +247,20 @@
       white-space: nowrap;
       border-bottom: 2px solid transparent;
     }
-
     .tab.active {
       color: var(--primary);
       border-bottom-color: var(--primary);
     }
-
     .tab-content {
       display: none;
     }
-
     .tab-content.active {
       display: block;
     }
-
     /* Form Elements */
     .form-section {
       margin-bottom: 24px;
     }
-
     .section-title {
       font-size: 16px;
       font-weight: 600;
@@ -311,21 +272,17 @@
       padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
     }
-
     .section-title i {
       color: var(--primary);
     }
-
     .form-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 16px;
     }
-
     .form-group {
       margin-bottom: 16px;
     }
-
     .form-label {
       display: block;
       margin-bottom: 6px;
@@ -333,7 +290,6 @@
       font-size: 14px;
       color: var(--text-primary);
     }
-
     .form-control {
       width: 100%;
       padding: 10px 12px;
@@ -343,23 +299,19 @@
       background: var(--card-bg);
       transition: all 0.2s;
     }
-
     .form-control:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(253, 145, 80, 0.1);
     }
-
     /* Search */
     .search-bar {
       position: relative;
       margin-bottom: 20px;
     }
-
     .search-input {
       padding-left: 40px;
     }
-
     .search-icon {
       position: absolute;
       left: 12px;
@@ -367,7 +319,6 @@
       transform: translateY(-50%);
       color: var(--text-light);
     }
-
     .search-results {
       position: absolute;
       background: var(--card-bg);
@@ -381,19 +332,16 @@
       border-radius: 0 0 var(--radius) var(--radius);
       box-shadow: var(--shadow);
     }
-
     .search-result-item {
       padding: 10px 16px;
       cursor: pointer;
       border-bottom: 1px solid var(--border);
       font-size: 14px;
     }
-
     .search-result-item:hover {
       background: rgba(253, 145, 80, 0.05);
       color: var(--primary);
     }
-
     /* Model Info */
     .model-info {
       background: rgba(253, 145, 80, 0.05);
@@ -403,11 +351,9 @@
       font-size: 14px;
       border-left: 3px solid var(--primary);
     }
-
     .model-info strong {
       color: var(--primary);
     }
-
     /* Results */
     .result-container {
       margin-top: 24px;
@@ -416,76 +362,62 @@
       display: none;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-
     .result-diabetes {
       background: rgba(229, 57, 53, 0.05);
       border-left: 4px solid var(--danger);
     }
-
     .result-prediabetes {
       background: rgba(255, 179, 0, 0.05);
       border-left: 4px solid var(--warning);
     }
-
     .result-nondiabetes {
       background: rgba(0, 190, 100, 0.05);
       border-left: 4px solid var(--success);
     }
-
     .result-heart-disease {
       background: rgba(229, 57, 53, 0.05);
       border-left: 4px solid var(--danger);
     }
-
     .result-no-heart-disease {
       background: rgba(0, 190, 100, 0.05);
       border-left: 4px solid var(--success);
     }
-
     .result-title {
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 12px;
     }
-
     .result-details {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 12px;
     }
-
     .result-item {
       display: flex;
       flex-direction: column;
     }
-
     .result-label {
       font-size: 12px;
       color: var(--text-secondary);
       margin-bottom: 4px;
     }
-
     .result-value {
       font-size: 16px;
       font-weight: 600;
     }
-
     .result-actions {
       margin-top: 16px;
       display: flex;
       gap: 12px;
     }
-
     /* History */
     .history-section {
       margin-top: 40px;
     }
-
     .history-table {
       width: 100%;
       border-collapse: collapse;
     }
-
     .history-table th {
       background: rgba(253, 145, 80, 0.05);
       padding: 12px 16px;
@@ -495,22 +427,18 @@
       color: var(--text-secondary);
       border-bottom: 1px solid var(--border);
     }
-
     .history-table td {
       padding: 12px 16px;
       border-bottom: 1px solid var(--border);
       font-size: 14px;
     }
-
     .history-table tr:hover {
       background: rgba(253, 145, 80, 0.03);
     }
-
     .history-actions {
       display: flex;
       gap: 8px;
     }
-
     /* Loading */
     .loading {
       display: none;
@@ -518,7 +446,6 @@
       padding: 20px;
       color: var(--primary);
     }
-
     .spinner {
       border: 3px solid rgba(253, 145, 80, 0.2);
       border-top: 3px solid var(--primary);
@@ -528,12 +455,10 @@
       animation: spin 1s linear infinite;
       margin: 0 auto 10px;
     }
-
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
     /* Model Status */
     .model-status-container {
       display: grid;
@@ -541,63 +466,71 @@
       gap: 16px;
       margin-bottom: 24px;
     }
-
     .model-status-card {
       background: var(--card-bg);
       border-radius: var(--radius);
       padding: 16px;
       border-left: 4px solid var(--border);
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 12px;
       transition: transform 0.2s;
     }
-
     .model-status-card:hover {
       transform: translateY(-2px);
     }
-
     .model-status-card.ready {
       border-left-color: var(--success);
     }
-
     .model-status-card.loading {
       border-left-color: var(--warning);
     }
-
     .model-status-card.error {
       border-left-color: var(--danger);
     }
-
     .status-indicator {
       width: 12px;
       height: 12px;
       border-radius: 50%;
     }
-
     .status-ready {
       background: var(--success);
     }
-
     .status-loading {
       background: var(--warning);
     }
-
     .status-error {
       background: var(--danger);
     }
-
     .model-status-info h4 {
       font-size: 14px;
       font-weight: 600;
       margin-bottom: 4px;
     }
-
     .model-status-info p {
       font-size: 12px;
       color: var(--text-secondary);
     }
-
+    .model-about-link {
+      font-size: 12px;
+      color: var(--primary);
+      cursor: pointer;
+      text-decoration: underline;
+      align-self: flex-start;
+    }
+    .model-features-list {
+      display: none;
+      background: rgba(0, 190, 100, 0.05);
+      padding: 10px;
+      border-radius: var(--radius);
+      margin-top: 8px;
+      font-size: 12px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .model-features-list.active {
+      display: block;
+    }
     /* Modal */
     .modal {
       display: none;
@@ -611,18 +544,16 @@
       background-color: rgba(0,0,0,0.4);
       padding-top: 60px;
     }
-
     .modal-content {
       background-color: var(--card-bg);
       margin: 5% auto 15% auto;
       padding: 20px;
       border: 1px solid var(--border);
       width: 80%;
-      max-width: 500px;
+      max-width: 600px;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
-
     .close {
       color: var(--text-light);
       float: right;
@@ -630,14 +561,12 @@
       font-weight: bold;
       cursor: pointer;
     }
-
     .close:hover,
     .close:focus {
       color: var(--text-primary);
       text-decoration: none;
       cursor: pointer;
     }
-
     /* Badge */
     .badge {
       display: inline-block;
@@ -646,72 +575,122 @@
       font-size: 12px;
       font-weight: 600;
     }
-
     .badge-primary {
       background: rgba(253, 145, 80, 0.1);
       color: var(--primary);
     }
-
     .badge-success {
       background: rgba(0, 190, 100, 0.1);
       color: var(--success);
     }
-
     .badge-danger {
       background: rgba(229, 57, 53, 0.1);
       color: var(--danger);
     }
-
+    /* Report Header Grid — IMPROVED FOR TWO-COLUMN ALIGNMENT */
+    .report-header-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: rgba(253, 145, 80, 0.05);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--primary);
+    }
+    .patient-details, .professional-details {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .patient-details h3, .professional-details h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 5px;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .detail-label {
+      font-weight: 500;
+      color: var(--text-secondary);
+      min-width: 180px;
+    }
+    .detail-value {
+      font-weight: 500;
+      color: var(--text-primary);
+      flex: 1;
+      text-align: right;
+    }
+    .detail-value input {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 14px;
+    }
     /* Responsive */
     @media (max-width: 1024px) {
       .app-container {
         flex-direction: column;
       }
-      
       .sidebar {
         width: 100%;
       }
-      
       .nav-section {
         display: flex;
         overflow-x: auto;
         padding: 0;
       }
-      
       .nav-item {
         border-left: none;
         border-bottom: 3px solid transparent;
         white-space: nowrap;
       }
-      
       .nav-item.active {
         border-left: none;
         border-bottom-color: white;
       }
     }
-
     @media (max-width: 768px) {
       .form-grid {
         grid-template-columns: 1fr;
       }
-      
       .header {
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
       }
-      
       .header-actions {
         width: 100%;
         justify-content: space-between;
       }
-      
       .model-status-container {
         grid-template-columns: 1fr;
       }
-      
       .result-details {
         grid-template-columns: 1fr;
+      }
+      .report-header-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+      .detail-value {
+        text-align: left;
+      }
+      .detail-value input {
+        text-align: left;
       }
     }
   </style>
@@ -729,7 +708,6 @@
           <div class="logo-subtitle">Healthcare Analytics</div>
         </div>
       </div>
-      
       <div class="nav-section">
         <div class="nav-item active" data-tab="dashboard">
           <i class="fas fa-home"></i>
@@ -745,7 +723,6 @@
         </div>
       </div>
     </div>
-
     <!-- Main Content -->
     <div class="main-content">
       <div class="header">
@@ -762,7 +739,6 @@
           </button>
         </div>
       </div>
-
       <!-- Dashboard Tab -->
       <div class="tab-content active" id="dashboard-tab">
         <div class="card">
@@ -780,6 +756,8 @@
                   <h4>Diabetes (8 Features)</h4>
                   <p>Loading model...</p>
                 </div>
+                <span class="model-about-link" onclick="toggleModelFeatures('diabetes-8')">ℹ️ About this model</span>
+                <div class="model-features-list" id="features-diabetes-8"></div>
               </div>
               <div class="model-status-card loading" id="status-diabetes-17">
                 <div class="status-indicator status-loading"></div>
@@ -787,6 +765,8 @@
                   <h4>Diabetes (17 Features)</h4>
                   <p>Loading model...</p>
                 </div>
+                <span class="model-about-link" onclick="toggleModelFeatures('diabetes-17')">ℹ️ About this model</span>
+                <div class="model-features-list" id="features-diabetes-17"></div>
               </div>
               <div class="model-status-card loading" id="status-diabetes-43">
                 <div class="status-indicator status-loading"></div>
@@ -794,6 +774,8 @@
                   <h4>Diabetes (43 Features)</h4>
                   <p>Loading model...</p>
                 </div>
+                <span class="model-about-link" onclick="toggleModelFeatures('diabetes-43')">ℹ️ About this model</span>
+                <div class="model-features-list" id="features-diabetes-43"></div>
               </div>
               <div class="model-status-card loading" id="status-heart">
                 <div class="status-indicator status-loading"></div>
@@ -801,11 +783,12 @@
                   <h4>Heart Disease</h4>
                   <p>Loading model...</p>
                 </div>
+                <span class="model-about-link" onclick="toggleModelFeatures('heart')">ℹ️ About this model</span>
+                <div class="model-features-list" id="features-heart"></div>
               </div>
             </div>
           </div>
         </div>
-
         <div class="card">
           <div class="card-header">
             <div class="card-title">
@@ -820,7 +803,6 @@
           </div>
         </div>
       </div>
-
       <!-- Diabetes Tab -->
       <div class="tab-content" id="diabetes-tab">
         <div class="card">
@@ -828,13 +810,11 @@
             <div class="model-info">
               <strong>Model:</strong> Diabetes Type 2 (Auto-selects best model: 8, 17, or 43 features) • <strong>Basic:</strong> Gender, Age, Hypertension, Heart Disease, Smoking History, BMI, HbA1c, Blood Glucose • Use search to add more parameters for better accuracy.
             </div>
-            
             <div class="search-bar">
               <i class="fas fa-search search-icon"></i>
               <input type="text" id="search-diabetes" class="form-control search-input" placeholder="Search for additional parameters...">
               <div class="search-results" id="search-results-diabetes"></div>
             </div>
-            
             <div id="form-diabetes">
               <div class="form-section">
                 <div class="section-title">
@@ -873,7 +853,6 @@
                   </div>
                 </div>
               </div>
-              
               <div class="form-section">
                 <div class="section-title">
                   <i class="fas fa-smoking"></i>
@@ -898,7 +877,6 @@
                   </div>
                 </div>
               </div>
-              
               <div class="form-section">
                 <div class="section-title">
                   <i class="fas fa-vial"></i>
@@ -916,21 +894,17 @@
                 </div>
               </div>
             </div>
-            
             <button class="btn btn-primary" onclick="predict('diabetes')">
               <i class="fas fa-heartbeat"></i> Predict Diabetes Risk
             </button>
-            
             <div class="loading" id="loading-diabetes">
               <div class="spinner"></div>
               <div>Analyzing patient data...</div>
             </div>
-            
             <div class="result-container" id="result-diabetes"></div>
           </div>
         </div>
       </div>
-
       <!-- Heart Tab -->
       <div class="tab-content" id="heart-tab">
         <div class="card">
@@ -938,13 +912,11 @@
             <div class="model-info">
               <strong>Model:</strong> Heart Disease (11 features) • <strong>Required:</strong> Age, Sex, Chest Pain Type, Resting BP, Cholesterol, Fasting Blood Sugar, Resting ECG, Max Heart Rate, Exercise Angina, Oldpeak, ST Slope
             </div>
-            
             <div class="search-bar">
               <i class="fas fa-search search-icon"></i>
               <input type="text" id="search-heart" class="form-control search-input" placeholder="Search for additional parameters...">
               <div class="search-results" id="search-results-heart"></div>
             </div>
-            
             <div id="form-heart">
               <div class="form-section">
                 <div class="section-title">
@@ -966,7 +938,6 @@
                   </div>
                 </div>
               </div>
-              
               <div class="form-section">
                 <div class="section-title">
                   <i class="fas fa-heartbeat"></i>
@@ -1001,7 +972,6 @@
                   </div>
                 </div>
               </div>
-              
               <div class="form-section">
                 <div class="section-title">
                   <i class="fas fa-vial"></i>
@@ -1016,8 +986,8 @@
                     <label for="fasting_blood_sugar-heart" class="form-label">Fasting Blood Sugar</label>
                     <select id="fasting_blood_sugar-heart" class="form-control">
                       <option value="">Select</option>
-                      <option value="0">&lt;=120 mg/dl</option>
-                      <option value="1">&gt;120 mg/dl</option>
+                      <option value="0"><=120 mg/dl</option>
+                      <option value="1">>120 mg/dl</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -1045,21 +1015,17 @@
                 </div>
               </div>
             </div>
-            
             <button class="btn btn-primary" onclick="predict('heart')">
               <i class="fas fa-heartbeat"></i> Predict Heart Disease Risk
             </button>
-            
             <div class="loading" id="loading-heart">
               <div class="spinner"></div>
               <div>Analyzing patient data...</div>
             </div>
-            
             <div class="result-container" id="result-heart"></div>
           </div>
         </div>
       </div>
-
       <!-- History Section -->
       <div class="card history-section">
         <div class="card-header">
@@ -1088,25 +1054,23 @@
       </div>
     </div>
   </div>
-
   <!-- Modal Dialog -->
   <div id="modal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <p id="modal-message"></p>
+      <div id="modal-message"></div>
       <div id="modal-buttons" style="text-align: right; margin-top: 20px;"></div>
     </div>
   </div>
-
   <script>
     // Global variables
     let models = {};
     let predictionHistory = JSON.parse(localStorage.getItem('predictionHistory') || '[]');
-    
     const modelConfigs = {
       'diabetes-8': {
         path: 'models/dia8/model.json',
         features: ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level', 'blood_glucose_level'],
+        requiredFeatures: ['age', 'bmi', 'HbA1c_level', 'blood_glucose_level'],
         defaults: {
           gender: 'Female',
           age: '42',
@@ -1138,6 +1102,7 @@
       'diabetes-17': {
         path: 'models/dia17/model.json',
         features: ['age', 'gender', 'bmi', 'sbp', 'dbp', 'fpg', 'chol', 'tri', 'hdl', 'ldl', 'alt', 'bun', 'ccr', 'ffpg', 'smoking', 'drinking', 'family_history'],
+        requiredFeatures: ['age', 'bmi', 'fpg', 'chol'],
         defaults: {
           age: '48',
           gender: '1',
@@ -1176,6 +1141,7 @@
       'diabetes-43': {
         path: 'models/dia43/model.json',
         features: ['age', 'gender', 'ethnicity', 'socioeconomic_status', 'education_level', 'bmi', 'smoking', 'alcohol_consumption', 'physical_activity', 'diet_quality', 'sleep_quality', 'family_history_diabetes', 'gestational_diabetes', 'polycystic_ovary_syndrome', 'previous_pre_diabetes', 'hypertension', 'systolic_bp', 'diastolic_bp', 'fasting_blood_sugar', 'hba1c', 'serum_creatinine', 'bun_levels', 'cholesterol_total', 'cholesterol_ldl', 'cholesterol_hdl', 'cholesterol_triglycerides', 'antihypertensive_medications', 'statins', 'antidiabetic_medications', 'frequent_urination', 'excessive_thirst', 'unexplained_weight_loss', 'fatigue_levels', 'blurred_vision', 'slow_healing_sores', 'tingling_hands_feet', 'quality_of_life_score', 'heavy_metals_exposure', 'occupational_exposure_chemicals', 'water_quality', 'medical_checkups_frequency', 'medication_adherence', 'health_literacy'],
+        requiredFeatures: ['age', 'bmi', 'hba1c', 'fasting_blood_sugar'],
         defaults: {
           age: '55',
           gender: '0',
@@ -1242,6 +1208,7 @@
       'heart': {
         path: 'models/heart/model.json',
         features: ['age', 'sex', 'chest_pain_type', 'resting_bp_s', 'cholesterol', 'fasting_blood_sugar', 'resting_ecg', 'max_heart_rate', 'exercise_angina', 'oldpeak', 'st_slope'],
+        requiredFeatures: ['age', 'sex', 'chest_pain_type', 'resting_bp_s', 'cholesterol', 'max_heart_rate'],
         defaults: {
           age: '54',
           sex: '1',
@@ -1273,7 +1240,6 @@
         }
       }
     };
-
     const featureMeta = {
       'gender': {type: 'select', options: {'Female': 'Female', 'Male': 'Male', 'Other': 'Other'}},
       'age': {type: 'number', min: 18, max: 100},
@@ -1346,31 +1312,26 @@
       'oldpeak': {type: 'number', step: '0.1'},
       'st_slope': {type: 'select', options: {'Up': '1', 'Flat': '2', 'Down': '3'}}
     };
-
     const featureArrays = {
       'diabetes': [...new Set([...modelConfigs['diabetes-8'].features, ...modelConfigs['diabetes-17'].features, ...modelConfigs['diabetes-43'].features])],
       'heart': modelConfigs['heart'].features
     };
-
     // Modal setup
     const modal = document.getElementById('modal');
     const modalMessage = document.getElementById('modal-message');
     const modalButtons = document.getElementById('modal-buttons');
     const closeSpan = document.querySelector('.close');
-
     closeSpan.onclick = closeModal;
     window.onclick = (event) => {
       if (event.target === modal) {
         closeModal();
       }
     };
-
     function showMessage(msg) {
       modalMessage.innerHTML = msg.replace(/\n/g, '<br>');
       modalButtons.innerHTML = '<button class="btn btn-primary" onclick="closeModal()">OK</button>';
       modal.style.display = 'block';
     }
-
     function showConfirm(msg, callback) {
       modalMessage.innerHTML = msg.replace(/\n/g, '<br>');
       modalButtons.innerHTML = `
@@ -1383,42 +1344,46 @@
       };
       modal.style.display = 'block';
     }
-
     function closeModal() {
       modal.style.display = 'none';
     }
-
     // Initialize application
     document.addEventListener('DOMContentLoaded', async () => {
       setupNavigation();
       setupSearchFunctionality();
       loadHistory();
       await loadAllModels();
+      populateModelFeatureLists(); // Populate "About" sections
     });
-
+    function populateModelFeatureLists() {
+      Object.keys(modelConfigs).forEach(modelId => {
+        const listEl = document.getElementById(`features-${modelId}`);
+        if (listEl) {
+          const features = modelConfigs[modelId].features.map(f => formatLabel(f)).join('<br>• ');
+          listEl.innerHTML = `<strong>Required Inputs:</strong><br>• ${features}`;
+        }
+      });
+    }
+    function toggleModelFeatures(modelId) {
+      const list = document.getElementById(`features-${modelId}`);
+      list.classList.toggle('active');
+    }
     function setupNavigation() {
       document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', () => {
           const tabId = item.dataset.tab;
-          
-          // Update active nav item
           document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
           item.classList.add('active');
-          
-          // Show corresponding tab content
           document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
           document.getElementById(`${tabId}-tab`).classList.add('active');
         });
       });
     }
-
     function setupSearchFunctionality() {
       ['diabetes', 'heart'].forEach(tabId => {
         const searchInput = document.getElementById(`search-${tabId}`);
         const resultsDiv = document.getElementById(`search-results-${tabId}`);
-
         if (!searchInput || !resultsDiv) return;
-
         searchInput.addEventListener('input', () => {
           const query = searchInput.value.toLowerCase();
           if (!query) {
@@ -1431,7 +1396,6 @@
           ).join('');
           resultsDiv.style.display = matches.length ? 'block' : 'none';
         });
-
         document.addEventListener('click', (e) => {
           if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
             resultsDiv.style.display = 'none';
@@ -1439,14 +1403,11 @@
         });
       });
     }
-
     function addFeature(tabId, feature) {
       const form = document.getElementById(`form-${tabId}`);
       const existing = document.getElementById(`${feature}-${tabId}`);
       if (existing) return;
-
       const meta = featureMeta[feature] || {type: 'number'};
-
       const div = document.createElement('div');
       div.className = 'form-group';
       let inputHtml = '';
@@ -1466,23 +1427,26 @@
         <label for="${feature}-${tabId}" class="form-label">${formatLabel(feature)}</label>
         ${inputHtml}
       `;
-      
       const lastSection = form.querySelector('.form-section:last-child .form-grid');
       if (lastSection) {
         lastSection.appendChild(div);
       }
-      
       document.getElementById(`search-${tabId}`).value = '';
       document.getElementById(`search-results-${tabId}`).style.display = 'none';
     }
-
     function formatLabel(str) {
       return str.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     }
-
+    function getReadableValue(feature, value) {
+      const meta = featureMeta[feature];
+      if (meta && meta.type === 'select') {
+        const options = meta.options;
+        return Object.keys(options).find(key => options[key] === value) || value;
+      }
+      return value;
+    }
     async function loadAllModels() {
       const modelNames = Object.keys(modelConfigs);
-      
       for (const name of modelNames) {
         try {
           updateModelStatus(name, 'loading', 'Loading model...');
@@ -1495,38 +1459,29 @@
         }
       }
     }
-
     function updateModelStatus(modelName, status, message) {
       const statusCard = document.getElementById(`status-${modelName}`);
       if (!statusCard) return;
-      
       statusCard.className = `model-status-card ${status}`;
       const indicator = statusCard.querySelector('.status-indicator');
       const statusText = statusCard.querySelector('p');
-      
       indicator.className = `status-indicator status-${status}`;
       statusText.textContent = message;
     }
-
     function collectFormData(tabId) {
       const form = document.getElementById(`form-${tabId}`);
       if (!form) return {};
-      
       const data = {};
       const inputs = form.querySelectorAll('.form-control');
-      
       inputs.forEach(input => {
         if (input.value !== '') {
           const key = input.id.replace(`-${tabId}`, '');
           data[key] = input.value;
         }
       });
-      
       return data;
     }
-
     function validateInputs(tabId, data) {
-      // Basic validation: check ranges if defined in meta
       for (const [key, value] of Object.entries(data)) {
         const meta = featureMeta[key];
         if (meta && meta.type === 'number') {
@@ -1537,7 +1492,6 @@
       }
       return null;
     }
-
     function selectBestDiabetesModel(data) {
       const diabetesModels = ['diabetes-8', 'diabetes-17', 'diabetes-43'];
       let bestModel = diabetesModels[0];
@@ -1552,27 +1506,43 @@
       return bestModel;
     }
 
+    // ✅ NEW: Validate required features before prediction
+    function validateRequiredFeatures(modelId, data) {
+      const required = modelConfigs[modelId].requiredFeatures || [];
+      const missing = [];
+      for (const feat of required) {
+        if (!(feat in data) || data[feat] === '' || data[feat] == null) {
+          missing.push(formatLabel(feat));
+        }
+      }
+      return missing;
+    }
+
     async function predict(tabId) {
       let modelId = tabId;
       const data = collectFormData(tabId);
-      
       const validationError = validateInputs(tabId, data);
       if (validationError) {
         showMessage(validationError);
         return;
       }
-
       if (tabId === 'diabetes') {
         modelId = selectBestDiabetesModel(data);
       }
-
       if (!models[modelId]) {
         showMessage(`Model ${modelId} is not loaded yet. Please wait for the model to load.`);
         return;
       }
 
+      // ✅ CHECK REQUIRED FEATURES
+      const missingRequired = validateRequiredFeatures(modelId, data);
+      if (missingRequired.length > 0) {
+        const missingList = missingRequired.map(f => `• ${f}`).join('<br>');
+        showMessage(`Insufficient data for reliable prediction.<br><br>Please provide the following required fields:<br>${missingList}`);
+        return;
+      }
+
       showLoading(tabId, true);
-      
       try {
         const config = modelConfigs[modelId];
         const processedInputs = config.preprocess(data);
@@ -1581,10 +1551,8 @@
         const prediction = await models[modelId].predict(inputTensor);
         const prob = (await prediction.data())[0];
         const result = config.interpret(prob);
-        
         displayResult(tabId, result, data, modelId.startsWith('diabetes'));
         logPrediction(modelId, result, data);
-        
         inputTensor.dispose();
         prediction.dispose();
       } catch (error) {
@@ -1605,18 +1573,15 @@
         showLoading(tabId, false);
       }
     }
-
     function showLoading(tabId, show) {
       const loadingElement = document.getElementById(`loading-${tabId}`);
       if (loadingElement) {
         loadingElement.style.display = show ? 'block' : 'none';
       }
     }
-
     function displayResult(tabId, result, data, isDiabetes) {
       const resultDiv = document.getElementById(`result-${tabId}`);
       if (!resultDiv) return;
-      
       let className = '';
       if (isDiabetes) {
         className = result.class === 'Diabetic' ? 'result-diabetes' : 
@@ -1624,14 +1589,12 @@
       } else {
         className = result.class === 'Heart Disease' ? 'result-heart-disease' : 'result-no-heart-disease';
       }
-      
       let actions = '';
       if (isDiabetes) {
         actions = `<div class="result-actions">
           <button class="btn btn-secondary" onclick="chainToHeart('${JSON.stringify(data).replace(/"/g, '\\"')}')">Predict Heart Disease</button>
         </div>`;
       }
-
       resultDiv.className = `result-container ${className}`;
       resultDiv.innerHTML = `
         <div class="result-title">Prediction Result</div>
@@ -1654,11 +1617,9 @@
       resultDiv.style.display = 'block';
       resultDiv.scrollIntoView({ behavior: 'smooth' });
     }
-
     function chainToHeart(dataStr) {
       const data = JSON.parse(dataStr);
       document.querySelector('.nav-item[data-tab="heart"]').click();
-
       const mappings = {
         age: 'age-heart',
         gender: 'sex-heart',
@@ -1670,7 +1631,6 @@
         fpg: 'fasting_blood_sugar-heart',
         fasting_blood_sugar: 'fasting_blood_sugar-heart'
       };
-
       for (const [from, to] of Object.entries(mappings)) {
         if (data[from]) {
           let value = data[from];
@@ -1685,7 +1645,6 @@
         }
       }
     }
-
     function logPrediction(modelId, result, data) {
       const entry = {
         timestamp: new Date().toLocaleString(),
@@ -1695,27 +1654,21 @@
         risk: result.risk,
         inputs: {...data}
       };
-      
       predictionHistory.unshift(entry);
       if (predictionHistory.length > 100) predictionHistory.pop();
-      
       localStorage.setItem('predictionHistory', JSON.stringify(predictionHistory));
       loadHistory();
       updateRecentPredictions();
     }
-
     function loadHistory() {
       const tbody = document.getElementById('history-body');
       const noHistory = document.getElementById('no-history');
-      
       if (!tbody || !noHistory) return;
-      
       if (predictionHistory.length === 0) {
         noHistory.style.display = 'block';
         tbody.innerHTML = '';
         return;
       }
-      
       noHistory.style.display = 'none';
       tbody.innerHTML = predictionHistory.slice(0, 20).map((entry, index) => `
         <tr>
@@ -1728,6 +1681,9 @@
               <button class="btn btn-secondary" onclick="viewPredictionDetails(${index})" style="padding: 4px 8px; font-size: 12px;">
                 <i class="fas fa-eye"></i> Details
               </button>
+              <button class="btn btn-primary" onclick="exportSinglePDF(${index})" style="padding: 4px 8px; font-size: 12px;">
+                <i class="fas fa-file-pdf"></i> PDF
+              </button>
               <button class="btn btn-danger" onclick="deletePrediction(${index})" style="padding: 4px 8px; font-size: 12px;">
                 <i class="fas fa-trash"></i> Delete
               </button>
@@ -1736,16 +1692,13 @@
         </tr>
       `).join('');
     }
-
     function updateRecentPredictions() {
       const container = document.getElementById('recent-predictions');
       if (!container) return;
-      
       if (predictionHistory.length === 0) {
         container.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">No recent predictions</p>';
         return;
       }
-      
       const recent = predictionHistory.slice(0, 5);
       container.innerHTML = `
         <div style="display: grid; gap: 12px;">
@@ -1764,16 +1717,14 @@
         </div>
       `;
     }
-
     function viewPredictionDetails(index) {
       const entry = predictionHistory[index];
       const inputsStr = Object.entries(entry.inputs)
-        .map(([k, v]) => `${formatLabel(k)}: ${v}`)
+        .map(([k, v]) => `${formatLabel(k)}: ${getReadableValue(k, v)}`)
         .join('<br>');
       const msg = `Prediction Details:<br><br>Model: ${entry.model}<br>Result: ${entry.result}<br>Confidence: ${entry.confidence}%<br>Risk: ${entry.risk}<br><br>Inputs:<br>${inputsStr}`;
       showMessage(msg);
     }
-
     function deletePrediction(index) {
       showConfirm('Are you sure you want to delete this prediction?', (yes) => {
         if (yes) {
@@ -1784,7 +1735,6 @@
         }
       });
     }
-
     function clearHistory() {
       showConfirm('Are you sure you want to clear all prediction history?', (yes) => {
         if (yes) {
@@ -1795,33 +1745,85 @@
         }
       });
     }
-
     function clearAllForms() {
       document.querySelectorAll('.form-control').forEach(input => {
         input.value = '';
       });
-      
       document.querySelectorAll('.result-container').forEach(result => {
         result.style.display = 'none';
       });
-      
       showMessage('All forms have been cleared.');
     }
-
-    function exportHistory() {
-      if (predictionHistory.length === 0) {
-        showMessage('No prediction history to export.');
-        return;
+    function showExportForm(exportType, index = null) {
+      modalMessage.innerHTML = `
+        <h3>Enter Report Details</h3>
+        <div class="report-header-grid">
+          <div class="patient-details">
+            <h3>Patient Details</h3>
+            <div class="detail-row">
+              <span class="detail-label">Patient ID:</span>
+              <span class="detail-value"><input type="text" id="patient-id" class="form-control"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Patient Name:</span>
+              <span class="detail-value"><input type="text" id="patient-name" class="form-control"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Prediction Timestamp:</span>
+              <span class="detail-value">${index !== null ? predictionHistory[index]?.timestamp || 'N/A' : 'Auto-filled'}</span>
+            </div>
+          </div>
+          <div class="professional-details">
+            <h3>Healthcare Professional</h3>
+            <div class="detail-row">
+              <span class="detail-label">Professional ID:</span>
+              <span class="detail-value"><input type="text" id="doctor-id" class="form-control"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Professional Name:</span>
+              <span class="detail-value"><input type="text" id="doctor-name" class="form-control"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Report Generated:</span>
+              <span class="detail-value">${new Date().toLocaleString()}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      modalButtons.innerHTML = `
+        <button class="btn btn-secondary" style="margin-right:10px;" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="performExport('${exportType}', ${index !== null ? index : 'null'})">Export</button>
+      `;
+      modal.style.display = 'block';
+    }
+    async function performExport(exportType, index = null) {
+      const patientId = document.getElementById('patient-id').value.trim();
+      const patientName = document.getElementById('patient-name').value.trim();
+      const doctorId = document.getElementById('doctor-id').value.trim();
+      const doctorName = document.getElementById('doctor-name').value.trim();
+      closeModal();
+      if (exportType === 'csv') {
+        exportCSV(patientId, patientName, doctorId, doctorName);
+      } else if (exportType === 'pdf') {
+        await exportPDF(patientId, patientName, doctorId, doctorName);
+      } else if (exportType === 'pdf-single' && index !== null) {
+        await exportSinglePDFReport(patientId, patientName, doctorId, doctorName, index);
       }
-      
-      const headers = ['Timestamp', 'Model', 'Result', 'Confidence', 'Risk Level'];
+    }
+    function exportCSV(patientId, patientName, doctorId, doctorName) {
+      const headers = ['Timestamp', 'Model', 'Result', 'Confidence', 'Risk Level', 'Inputs'];
+      const historyData = predictionHistory.map(entry => 
+        `"${entry.timestamp}","${entry.model}","${entry.result}","${entry.confidence}%","${entry.risk}","${JSON.stringify(entry.inputs).replace(/"/g, '""')}"`
+      );
       const csvContent = [
+        `Patient ID,"${patientId}"`,
+        `Patient Name,"${patientName}"`,
+        `Healthcare Professional ID,"${doctorId}"`,
+        `Healthcare Professional Name,"${doctorName}"`,
+        '',
         headers.join(','),
-        ...predictionHistory.map(entry => 
-          `"${entry.timestamp}","${entry.model}","${entry.result}","${entry.confidence}%","${entry.risk}"`
-        )
+        ...historyData
       ].join('\n');
-      
       const blob = new Blob([csvContent], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -1832,41 +1834,154 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-
+    async function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          resolve(canvas.toDataURL('image/png'));
+        };
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+    async function exportPDF(patientId, patientName, doctorId, doctorName) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      try {
+        const logoData = await loadImage('dasmedhub-logo.png');
+        doc.addImage(logoData, 'PNG', 10, 10, 40, 40);
+      } catch (e) {
+        console.warn('Logo not loaded');
+      }
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(18);
+      doc.text('Clinical History Report', 60, 25);
+      doc.setFontSize(12);
+      doc.text(`Patient ID: ${patientId}`, 60, 35);
+      doc.text(`Patient Name: ${patientName}`, 60, 45);
+      doc.text(`Healthcare Professional ID: ${doctorId}`, 60, 55);
+      doc.text(`Healthcare Professional Name: ${doctorName}`, 60, 65);
+      doc.text(`Report Generated: ${new Date().toLocaleString()}`, 60, 75);
+      doc.setLineWidth(0.5);
+      doc.line(10, 85, 200, 85);
+      doc.autoTable({
+        startY: 90,
+        head: [['Timestamp', 'Model', 'Result', 'Confidence', 'Risk']],
+        body: predictionHistory.map(entry => [entry.timestamp, entry.model, entry.result, `${entry.confidence}%`, entry.risk]),
+        theme: 'grid',
+        headStyles: { fillColor: [0, 190, 100] },
+        styles: { fontSize: 10, cellPadding: 3 },
+      });
+      let y = doc.lastAutoTable.finalY + 20;
+      predictionHistory.forEach((entry, idx) => {
+        if (y > 250) {
+          doc.addPage();
+          y = 20;
+        }
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Inputs for Prediction ${idx + 1} (${entry.timestamp})`, 10, y);
+        y += 10;
+        doc.autoTable({
+          startY: y,
+          head: [['Parameter', 'Value']],
+          body: Object.entries(entry.inputs)
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .map(([k, v]) => [formatLabel(k), getReadableValue(k, v)]),
+          theme: 'grid',
+          headStyles: { fillColor: [253, 145, 80] },
+          styles: { fontSize: 9, cellPadding: 2 },
+        });
+        y = doc.lastAutoTable.finalY + 15;
+      });
+      doc.save(`clinical_predictions_history_${new Date().toISOString().split('T')[0]}.pdf`);
+    }
+    async function exportSinglePDFReport(patientId, patientName, doctorId, doctorName, index) {
+      const entry = predictionHistory[index];
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      try {
+        const logoData = await loadImage('dasmedhub-logo.png');
+        doc.addImage(logoData, 'PNG', 10, 10, 40, 40);
+      } catch (e) {
+        console.warn('Logo not loaded');
+      }
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(20);
+      doc.text('Clinical Report', 60, 25);
+      doc.setFontSize(12);
+      doc.text(`Patient ID: ${patientId}`, 60, 40);
+      doc.text(`Patient Name: ${patientName}`, 60, 50);
+      doc.text(`Healthcare Professional ID: ${doctorId}`, 60, 60);
+      doc.text(`Healthcare Professional Name: ${doctorName}`, 60, 70);
+      doc.text(`Prediction Timestamp: ${entry.timestamp}`, 60, 80);
+      doc.text(`Report Generated: ${new Date().toLocaleString()}`, 60, 90);
+      doc.setLineWidth(0.5);
+      doc.line(10, 100, 200, 100);
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Prediction Details', 10, 110);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(12);
+      doc.autoTable({
+        startY: 115,
+        head: [['Detail', 'Value']],
+        body: [
+          ['Model', entry.model],
+          ['Result', entry.result],
+          ['Confidence', `${entry.confidence}%`],
+          ['Risk Level', entry.risk]
+        ],
+        theme: 'grid',
+        headStyles: { fillColor: [0, 190, 100] },
+        styles: { fontSize: 10, cellPadding: 3 },
+      });
+      let y = doc.lastAutoTable.finalY + 10;
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Input Parameters', 10, y);
+      y += 5;
+      doc.line(10, y, 200, y);
+      y += 10;
+      doc.autoTable({
+        startY: y,
+        head: [['Parameter', 'Value']],
+        body: Object.entries(entry.inputs)
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([k, v]) => [formatLabel(k), getReadableValue(k, v)]),
+        theme: 'grid',
+        headStyles: { fillColor: [253, 145, 80] },
+        styles: { fontSize: 10, cellPadding: 3 },
+      });
+      doc.save(`clinical_prediction_${entry.model}_${new Date().toISOString().split('T')[0]}.pdf`);
+    }
+    function exportHistory() {
+      if (predictionHistory.length === 0) {
+        showMessage('No prediction history to export.');
+        return;
+      }
+      showExportForm('csv');
+    }
     function exportHistoryPDF() {
       if (predictionHistory.length === 0) {
         showMessage('No prediction history to export.');
         return;
       }
-
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-
-      doc.setFontSize(12);
-      doc.text('Prediction History', 10, 10);
-
-      let y = 20;
-      const headers = ['Timestamp', 'Model', 'Result', 'Confidence', 'Risk Level'];
-      headers.forEach((h, i) => doc.text(h, 10 + i * 40, y));
-      y += 10;
-
-      predictionHistory.forEach(entry => {
-        doc.text(entry.timestamp, 10, y);
-        doc.text(entry.model, 50, y);
-        doc.text(entry.result, 90, y);
-        doc.text(`${entry.confidence}%`, 130, y);
-        doc.text(entry.risk, 170, y);
-        y += 10;
-        if (y > 280) {
-          doc.addPage();
-          y = 10;
-        }
-      });
-
-      doc.save(`clinical_predictions_${new Date().toISOString().split('T')[0]}.pdf`);
+      showExportForm('pdf');
     }
-
-    // Initialize recent predictions on load
+    function exportSinglePDF(index) {
+      if (index < 0 || index >= predictionHistory.length) {
+        showMessage('Invalid prediction selected.');
+        return;
+      }
+      showExportForm('pdf-single', index);
+    }
     updateRecentPredictions();
   </script>
 </body>
