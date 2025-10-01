@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinical Prediction Suite | Healthcare Analytics</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --secondary: #fd9150;
+      --secondary-light: #ffb38a;
+      --secondary-dark: #e6733c;
+      --primary: #00be64;
+      --primary-light: #33d483;
+      --primary-dark: #00a050;
+      --danger: #e53935;
+      --warning: #ffb300;
+      --success: #00be64;
+      --light-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-light: #94a3b8;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --radius: 8px;
+      --gradient-secondary: linear-gradient(135deg, #fd9150, #ffb38a);
+      --gradient-primary: linear-gradient(135deg, #00be64, #33d483);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--gradient-primary);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-section {
+      padding: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+    }
+
+    .logo-subtitle {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 2px;
+    }
+
+    .nav-section {
+      padding: 16px 0;
+      flex: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 24px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      border-left-color: white;
+    }
+
+    .nav-item i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      background-color: #f8fafc;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      position: relative;
+    }
+
+    .header h1:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--gradient-primary);
+      border-radius: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: 0 2px 4px rgba(253, 145, 80, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 4px 8px rgba(253, 145, 80, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+
+    .btn-success {
+      background: var(--gradient-secondary);
+      color: white;
+      box-shadow: 0 2px 4px rgba(0, 190, 100, 0.3);
+    }
+
+    .btn-success:hover {
+      background: var(--secondary-dark);
+      box-shadow: 0 4px 8px rgba(0, 190, 100, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #d32f2f;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--border);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(253, 145, 80, 0.05);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title i {
+      color: var(--primary);
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 16px 24px;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Form Elements */
+    .form-section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-title i {
+      color: var(--primary);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+      background: var(--card-bg);
+      transition: all 0.2s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(253, 145, 80, 0.1);
+    }
+
+    /* Search */
+    .search-bar {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      padding-left: 40px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+    }
+
+    .search-results {
+      position: absolute;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-top: none;
+      width: 100%;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 10;
+      display: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .search-result-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .search-result-item:hover {
+      background: rgba(253, 145, 80, 0.05);
+      color: var(--primary);
+    }
+
+    /* Model Info */
+    .model-info {
+      background: rgba(253, 145, 80, 0.05);
+      padding: 16px;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      font-size: 14px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .model-info strong {
+      color: var(--primary);
+    }
+
+    /* Results */
+    .result-container {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: var(--radius);
+      display: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-diabetes {
+      background: rgba(229, 57, 53, 0.05);
+      border-left: 4px solid var(--danger);
+    }
+
+    .result-prediabetes {
+      background: rgba(255, 179, 0, 0.05);
+      border-left: 4px solid var(--warning);
+    }
+
+    .result-nondiabetes {
+      background: rgba(0, 190, 100, 0.05);
+      border-left: 4px solid var(--success);
+    }
+
+    .result-heart-disease {
+      background: rgba(229, 57, 53, 0.05);
+      border-left: 4px solid var(--danger);
+    }
+
+    .result-no-heart-disease {
+      background: rgba(0, 190, 100, 0.05);
+      border-left: 4px solid var(--success);
+    }
+
+    .result-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .result-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .result-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .result-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .result-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .result-actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* History */
+    .history-section {
+      margin-top: 40px;
+    }
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .history-table th {
+      background: rgba(253, 145, 80, 0.05);
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .history-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .history-table tr:hover {
+      background: rgba(253, 145, 80, 0.03);
+    }
+
+    .history-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Loading */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      color: var(--primary);
+    }
+
+    .spinner {
+      border: 3px solid rgba(253, 145, 80, 0.2);
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Model Status */
+    .model-status-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .model-status-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 16px;
+      border-left: 4px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.2s;
+    }
+
+    .model-status-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .model-status-card.ready {
+      border-left-color: var(--success);
+    }
+
+    .model-status-card.loading {
+      border-left-color: var(--warning);
+    }
+
+    .model-status-card.error {
+      border-left-color: var(--danger);
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .status-ready {
+      background: var(--success);
+    }
+
+    .status-loading {
+      background: var(--warning);
+    }
+
+    .status-error {
+      background: var(--danger);
+    }
+
+    .model-status-info h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .model-status-info p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      margin: 5% auto 15% auto;
+      padding: 20px;
+      border: 1px solid var(--border);
+      width: 80%;
+      max-width: 500px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .close {
+      color: var(--text-light);
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: var(--text-primary);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge-primary {
+      background: rgba(253, 145, 80, 0.1);
+      color: var(--primary);
+    }
+
+    .badge-success {
+      background: rgba(0, 190, 100, 0.1);
+      color: var(--success);
+    }
+
+    .badge-danger {
+      background: rgba(229, 57, 53, 0.1);
+      color: var(--danger);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .app-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+      }
+      
+      .nav-section {
+        display: flex;
+        overflow-x: auto;
+        padding: 0;
+      }
+      
+      .nav-item {
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        white-space: nowrap;
+      }
+      
+      .nav-item.active {
+        border-left: none;
+        border-bottom-color: white;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .model-status-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .result-details {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo-section">
+        <div class="logo-icon">
+          <i class="fas fa-stethoscope"></i>
+        </div>
+        <div>
+          <div class="logo-text">Clinical Prediction Suite</div>
+          <div class="logo-subtitle">Healthcare Analytics</div>
+        </div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-item active" data-tab="dashboard">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </div>
+        <div class="nav-item" data-tab="diabetes">
+          <i class="fas fa-vial"></i>
+          <span>Diabetes Prediction</span>
+        </div>
+        <div class="nav-item" data-tab="heart">
+          <i class="fas fa-heart"></i>
+          <span>Heart Disease</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="header">
+        <h1>Clinical Prediction Dashboard</h1>
+        <div class="header-actions">
+          <button class="btn btn-secondary" onclick="clearAllForms()">
+            <i class="fas fa-broom"></i> Clear All
+          </button>
+          <button class="btn btn-success" onclick="exportHistory()">
+            <i class="fas fa-download"></i> Export CSV
+          </button>
+          <button class="btn btn-primary" onclick="exportHistoryPDF()">
+            <i class="fas fa-file-pdf"></i> Export PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Dashboard Tab -->
+      <div class="tab-content active" id="dashboard-tab">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-microchip"></i>
+              <span>Model Status</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="model-status-container">
+              <div class="model-status-card loading" id="status-diabetes-8">
+                <div class="status-indicator status-loading"></div>
+                <div class="model-status-info">
+                  <h4>Diabetes (8 Features)</h4>
+                  <p>Loading model...</p>
+                </div>
+              </div>
+              <div class="model-status-card loading" id="status-diabetes-17">
+                <div class="status-indicator status-loading"></div>
+                <div class="model-status-info">
+                  <h4>Diabetes (17 Features)</h4>
+                  <p>Loading model...</p>
+                </div>
+              </div>
+              <div class="model-status-card loading" id="status-diabetes-43">
+                <div class="status-indicator status-loading"></div>
+                <div class="model-status-info">
+                  <h4>Diabetes (43 Features)</h4>
+                  <p>Loading model...</p>
+                </div>
+              </div>
+              <div class="model-status-card loading" id="status-heart">
+                <div class="status-indicator status-loading"></div>
+                <div class="model-status-info">
+                  <h4>Heart Disease</h4>
+                  <p>Loading model...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-history"></i>
+              <span>Recent Predictions</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="recent-predictions">
+              <p style="text-align: center; color: var(--text-light); padding: 20px;">No recent predictions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diabetes Tab -->
+      <div class="tab-content" id="diabetes-tab">
+        <div class="card">
+          <div class="card-body">
+            <div class="model-info">
+              <strong>Model:</strong> Diabetes Type 2 (Auto-selects best model: 8, 17, or 43 features) • <strong>Basic:</strong> Gender, Age, Hypertension, Heart Disease, Smoking History, BMI, HbA1c, Blood Glucose • Use search to add more parameters for better accuracy.
+            </div>
+            
+            <div class="search-bar">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" id="search-diabetes" class="form-control search-input" placeholder="Search for additional parameters...">
+              <div class="search-results" id="search-results-diabetes"></div>
+            </div>
+            
+            <div id="form-diabetes">
+              <div class="form-section">
+                <div class="section-title">
+                  <i class="fas fa-user"></i>
+                  <span>Patient Information</span>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="gender-diabetes" class="form-label">Gender</label>
+                    <select id="gender-diabetes" class="form-control">
+                      <option value="">Select Gender</option>
+                      <option value="Female">Female</option>
+                      <option value="Male">Male</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="age-diabetes" class="form-label">Age (18-100)</label>
+                    <input type="number" id="age-diabetes" class="form-control" min="18" max="100" placeholder="Enter age">
+                  </div>
+                  <div class="form-group">
+                    <label for="hypertension-diabetes" class="form-label">Hypertension</label>
+                    <select id="hypertension-diabetes" class="form-control">
+                      <option value="">Select</option>
+                      <option value="0">No</option>
+                      <option value="1">Yes</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="heart_disease-diabetes" class="form-label">Heart Disease</label>
+                    <select id="heart_disease-diabetes" class="form-control">
+                      <option value="">Select</option>
+                      <option value="0">No</option>
+                      <option value="1">Yes</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <div class="section-title">
+                  <i class="fas fa-smoking"></i>
+                  <span>Lifestyle Factors</span>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="smoking_history-diabetes" class="form-label">Smoking History</label>
+                    <select id="smoking_history-diabetes" class="form-control">
+                      <option value="">Select</option>
+                      <option value="No Info">No Info</option>
+                      <option value="current">Current</option>
+                      <option value="ever">Ever</option>
+                      <option value="former">Former</option>
+                      <option value="never">Never</option>
+                      <option value="not current">Not Current</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="bmi-diabetes" class="form-label">BMI</label>
+                    <input type="number" id="bmi-diabetes" class="form-control" step="0.01" placeholder="Enter BMI">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <div class="section-title">
+                  <i class="fas fa-vial"></i>
+                  <span>Lab Values</span>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="HbA1c_level-diabetes" class="form-label">HbA1c Level (%)</label>
+                    <input type="number" id="HbA1c_level-diabetes" class="form-control" step="0.01" placeholder="Enter HbA1c">
+                  </div>
+                  <div class="form-group">
+                    <label for="blood_glucose_level-diabetes" class="form-label">Blood Glucose (mg/dL)</label>
+                    <input type="number" id="blood_glucose_level-diabetes" class="form-control" min="80" max="300" placeholder="Enter glucose level">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="predict('diabetes')">
+              <i class="fas fa-heartbeat"></i> Predict Diabetes Risk
+            </button>
+            
+            <div class="loading" id="loading-diabetes">
+              <div class="spinner"></div>
+              <div>Analyzing patient data...</div>
+            </div>
+            
+            <div class="result-container" id="result-diabetes"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Heart Tab -->
+      <div class="tab-content" id="heart-tab">
+        <div class="card">
+          <div class="card-body">
+            <div class="model-info">
+              <strong>Model:</strong> Heart Disease (11 features) • <strong>Required:</strong> Age, Sex, Chest Pain Type, Resting BP, Cholesterol, Fasting Blood Sugar, Resting ECG, Max Heart Rate, Exercise Angina, Oldpeak, ST Slope
+            </div>
+            
+            <div class="search-bar">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" id="search-heart" class="form-control search-input" placeholder="Search for additional parameters...">
+              <div class="search-results" id="search-results-heart"></div>
+            </div>
+            
+            <div id="form-heart">
+              <div class="form-section">
+                <div class="section-title">
+                  <i class="fas fa-user"></i>
+                  <span>Patient Information</span>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="age-heart" class="form-label">Age</label>
+                    <input type="number" id="age-heart" class="form-control" min="18" max="100" placeholder="Enter age">
+                  </div>
+                  <div class="form-group">
+                    <label for="sex-heart" class="form-label">Sex</label>
+                    <select id="sex-heart" class="form-control">
+                      <option value="">Select</option>
+                      <option value="0">Female</option>
+                      <option value="1">Male</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <div class="section-title">
+                  <i class="fas fa-heartbeat"></i>
+                  <span>Symptoms & Vital Signs</span>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="chest_pain_type-heart" class="form-label">Chest Pain Type</label>
+                    <select id="chest_pain_type-heart" class="form-control">
+                      <option value="">Select</option>
+                      <option value="1">Typical Angina</option>
+                      <option value="2">Atypical Angina</option>
+                      <option value="3">Non-Anginal Pain</option>
+                      <option value="4">Asymptomatic</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="resting_bp_s-heart" class="form-label">Resting BP (systolic)</label>
+                    <input type="number" id="resting_bp_s-heart" class="form-control" placeholder="Enter resting BP">
+                  </div>
+                  <div class="form-group">
+                    <label for="max_heart_rate-heart" class="form-label">Max Heart Rate</label>
+                    <input type="number" id="max_heart_rate-heart" class="form-control" placeholder="Enter max heart rate">
+                  </div>
+                  <div class="form-group">
+                    <label for="exercise_angina-heart" class="form-label">Exercise Angina</label>
+                    <select id="exercise_angina-heart" class="form-control">
+                      <option value="">Select</option>
+                      <option value="0">No</option>
+                      <option value="1">Yes</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <div class="section-title">
+                  <i class="fas fa-vial"></i>
+                  <span>Lab & ECG Values</span>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="cholesterol-heart" class="form-label">Cholesterol</label>
+                    <input type="number" id="cholesterol-heart" class="form-control" placeholder="Enter cholesterol">
+                  </div>
+                  <div class="form-group">
+                    <label for="fasting_blood_sugar-heart" class="form-label">Fasting Blood Sugar</label>
+                    <select id="fasting_blood_sugar-heart" class="form-control">
+                      <option value="">Select</option>
+                      <option value="0">&lt;=120 mg/dl</option>
+                      <option value="1">&gt;120 mg/dl</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="resting_ecg-heart" class="form-label">Resting ECG</label>
+                    <select id="resting_ecg-heart" class="form-control">
+                      <option value="">Select</option>
+                      <option value="0">Normal</option>
+                      <option value="1">ST-T Abnormal</option>
+                      <option value="2">LV Hypertrophy</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="oldpeak-heart" class="form-label">Oldpeak</label>
+                    <input type="number" id="oldpeak-heart" class="form-control" step="0.1" placeholder="Enter oldpeak">
+                  </div>
+                  <div class="form-group">
+                    <label for="st_slope-heart" class="form-label">ST Slope</label>
+                    <select id="st_slope-heart" class="form-control">
+                      <option value="">Select</option>
+                      <option value="1">Up</option>
+                      <option value="2">Flat</option>
+                      <option value="3">Down</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="predict('heart')">
+              <i class="fas fa-heartbeat"></i> Predict Heart Disease Risk
+            </button>
+            
+            <div class="loading" id="loading-heart">
+              <div class="spinner"></div>
+              <div>Analyzing patient data...</div>
+            </div>
+            
+            <div class="result-container" id="result-heart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Section -->
+      <div class="card history-section">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-history"></i> Prediction History
+          </div>
+          <button class="btn btn-danger" onclick="clearHistory()">Clear History</button>
+        </div>
+        <div class="card-body">
+          <div id="history-container">
+            <table class="history-table" id="history-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Model</th>
+                  <th>Result</th>
+                  <th>Confidence</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="history-body"></tbody>
+            </table>
+            <p id="no-history" style="text-align: center; color: var(--text-light); padding: 20px; display: none;">No predictions yet</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Dialog -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="modal-message"></p>
+      <div id="modal-buttons" style="text-align: right; margin-top: 20px;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let models = {};
+    let predictionHistory = JSON.parse(localStorage.getItem('predictionHistory') || '[]');
+    
+    const modelConfigs = {
+      'diabetes-8': {
+        path: 'models/dia8/model.json',
+        features: ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level', 'blood_glucose_level'],
+        defaults: {
+          gender: 'Female',
+          age: '42',
+          hypertension: '0',
+          heart_disease: '0',
+          smoking_history: 'never',
+          bmi: '27.32',
+          HbA1c_level: '5.53',
+          blood_glucose_level: '138'
+        },
+        preprocess: (data) => {
+          const d = { ...modelConfigs['diabetes-8'].defaults, ...data };
+          let gender = d.gender === 'Female' ? 0 : d.gender === 'Male' ? 1 : 2;
+          const smokingMap = {'No Info': 0, 'current': 1, 'ever': 2, 'former': 3, 'never': 4, 'not current': 5};
+          const smoking = smokingMap[d.smoking_history] || 4;
+          return [gender, parseFloat(d.age) || 42, parseFloat(d.hypertension) || 0, parseFloat(d.heart_disease) || 0, smoking, parseFloat(d.bmi) || 27.32, parseFloat(d.HbA1c_level) || 5.53, parseFloat(d.blood_glucose_level) || 138];
+        },
+        normalize: (inputs) => {
+          const mean = [0.41466, 41.885856, 0.07485, 0.03942, 2.17965, 27.3207671, 5.527507, 138.05806];
+          const stdDev = [0.49302848, 22.51672729, 0.26314915, 0.19459204, 1.88964967, 6.63675023, 1.07066674, 40.70793251];
+          return inputs.map((val, i) => (val - mean[i]) / stdDev[i]);
+        },
+        interpret: (prob) => {
+          if (prob >= 0.70) return {class: 'Diabetic', confidence: prob * 100, risk: 'high'};
+          if (prob >= 0.40) return {class: 'Prediabetic', confidence: prob * 100, risk: 'moderate'};
+          return {class: 'Non-diabetic', confidence: (1 - prob) * 100, risk: 'low'};
+        }
+      },
+      'diabetes-17': {
+        path: 'models/dia17/model.json',
+        features: ['age', 'gender', 'bmi', 'sbp', 'dbp', 'fpg', 'chol', 'tri', 'hdl', 'ldl', 'alt', 'bun', 'ccr', 'ffpg', 'smoking', 'drinking', 'family_history'],
+        defaults: {
+          age: '48',
+          gender: '1',
+          bmi: '24.12',
+          sbp: '123',
+          dbp: '76',
+          fpg: '5.23',
+          chol: '4.86',
+          tri: '1.58',
+          hdl: '1.36',
+          ldl: '2.80',
+          alt: '27',
+          bun: '4.84',
+          ccr: '72',
+          ffpg: '5.73',
+          smoking: '3',
+          drinking: '3',
+          family_history: '0'
+        },
+        preprocess: (data) => {
+          const d = { ...modelConfigs['diabetes-17'].defaults, ...data };
+          const inputs = modelConfigs['diabetes-17'].features.map(f => parseFloat(d[f]));
+          return inputs;
+        },
+        normalize: (inputs) => {
+          const mean = [48.0850569, 1.35161515, 24.1239228, 123.219382, 76.3604462, 5.22636765, 4.86075309, 1.57782911, 1.36169193, 2.80366509, 26.8006027, 4.84064942, 72.0840787, 5.72908436, 2.62338776, 2.86925911, 0.0615849407];
+          const scale = [14.68444811, 0.47747454, 3.39689946, 17.51182266, 11.00277729, 0.78099865, 0.92526973, 1.2459078, 0.3119531, 0.66397876, 22.2547717, 1.25141716, 15.85503172, 1.42440207, 0.76309691, 0.45237629, 0.24040016];
+          return inputs.map((val, i) => (val - mean[i]) / scale[i]);
+        },
+        interpret: (prob) => {
+          if (prob >= 0.70) return {class: 'Diabetic', confidence: prob * 100, risk: 'high'};
+          if (prob >= 0.40) return {class: 'Prediabetic', confidence: prob * 100, risk: 'moderate'};
+          return {class: 'Non-diabetic', confidence: (1 - prob) * 100, risk: 'low'};
+        }
+      },
+      'diabetes-43': {
+        path: 'models/dia43/model.json',
+        features: ['age', 'gender', 'ethnicity', 'socioeconomic_status', 'education_level', 'bmi', 'smoking', 'alcohol_consumption', 'physical_activity', 'diet_quality', 'sleep_quality', 'family_history_diabetes', 'gestational_diabetes', 'polycystic_ovary_syndrome', 'previous_pre_diabetes', 'hypertension', 'systolic_bp', 'diastolic_bp', 'fasting_blood_sugar', 'hba1c', 'serum_creatinine', 'bun_levels', 'cholesterol_total', 'cholesterol_ldl', 'cholesterol_hdl', 'cholesterol_triglycerides', 'antihypertensive_medications', 'statins', 'antidiabetic_medications', 'frequent_urination', 'excessive_thirst', 'unexplained_weight_loss', 'fatigue_levels', 'blurred_vision', 'slow_healing_sores', 'tingling_hands_feet', 'quality_of_life_score', 'heavy_metals_exposure', 'occupational_exposure_chemicals', 'water_quality', 'medical_checkups_frequency', 'medication_adherence', 'health_literacy'],
+        defaults: {
+          age: '55',
+          gender: '0',
+          ethnicity: '1',
+          socioeconomic_status: '1',
+          education_level: '2',
+          bmi: '27.69',
+          smoking: '0',
+          alcohol_consumption: '10',
+          physical_activity: '5',
+          diet_quality: '5',
+          sleep_quality: '7',
+          family_history_diabetes: '0',
+          gestational_diabetes: '0',
+          polycystic_ovary_syndrome: '0',
+          previous_pre_diabetes: '0',
+          hypertension: '0',
+          systolic_bp: '134',
+          diastolic_bp: '90',
+          fasting_blood_sugar: '135',
+          hba1c: '6.98',
+          serum_creatinine: '2.78',
+          bun_levels: '28',
+          cholesterol_total: '225',
+          cholesterol_ldl: '125',
+          cholesterol_hdl: '60',
+          cholesterol_triglycerides: '227',
+          antihypertensive_medications: '0',
+          statins: '0',
+          antidiabetic_medications: '0',
+          frequent_urination: '0',
+          excessive_thirst: '0',
+          unexplained_weight_loss: '0',
+          fatigue_levels: '5',
+          blurred_vision: '0',
+          slow_healing_sores: '0',
+          tingling_hands_feet: '0',
+          quality_of_life_score: '49',
+          heavy_metals_exposure: '0',
+          occupational_exposure_chemicals: '0',
+          water_quality: '0',
+          medical_checkups_frequency: '2',
+          medication_adherence: '5',
+          health_literacy: '5'
+        },
+        preprocess: (data) => {
+          const d = { ...modelConfigs['diabetes-43'].defaults, ...data };
+          const genderMap = { 'Female': 0, 'Male': 1, 'Other': 0 };
+          d.gender = genderMap[d.gender] || 0;
+          const inputs = modelConfigs['diabetes-43'].features.map(f => parseFloat(d[f]));
+          return inputs;
+        },
+        normalize: (inputs) => {
+          const mean = [55.0431080, 0.487493348, 0.755721128, 0.992017030, 1.69930814, 27.6876014, 0.281532730, 10.0965873, 5.20079042, 4.89580107, 7.02132836, 0.238424694, 0.0995210218, 0.0447046301, 0.153805216, 0.153273018, 134.050559, 89.8637573, 135.204490, 6.97613340, 2.78459017, 27.7981535, 225.006464, 124.656831, 60.0609437, 227.386167, 0.285790314, 0.403938265, 0.278339542, 0.197445450, 0.193187866, 0.109632783, 4.94900276, 0.0952634380, 0.102714210, 0.111229377, 48.5086433, 0.0521554018, 0.103246408, 0.200638638, 1.99710103, 4.95753939, 5.01173646];
+          const stdDev = [20.51037859, 0.49984356, 1.04727935, 0.76473646, 0.88542966, 7.18906146, 0.44974665, 5.91264209, 2.85625133, 2.86638106, 1.72900894, 0.42612012, 0.29936030, 0.20665461, 0.36076193, 0.36025047, 25.60701279, 17.3234748, 37.50576594, 1.73890229, 1.30767444, 12.79739036, 43.3556288, 42.89972524, 23.31047652, 101.0446796, 0.45179001, 0.49068538, 0.44818148, 0.39807128, 0.39479908, 0.31243149, 2.88371575, 0.29357847, 0.30358524, 0.31441597, 28.75083417, 0.22234032, 0.30428044, 0.40047818, 1.12233295, 2.91015882, 2.92013104];
+          return inputs.map((val, i) => (val - mean[i]) / stdDev[i]);
+        },
+        interpret: (prob) => {
+          if (prob >= 0.70) return {class: 'Diabetic', confidence: prob * 100, risk: 'high'};
+          if (prob >= 0.40) return {class: 'Prediabetic', confidence: prob * 100, risk: 'moderate'};
+          return {class: 'Non-diabetic', confidence: (1 - prob) * 100, risk: 'low'};
+        }
+      },
+      'heart': {
+        path: 'models/heart/model.json',
+        features: ['age', 'sex', 'chest_pain_type', 'resting_bp_s', 'cholesterol', 'fasting_blood_sugar', 'resting_ecg', 'max_heart_rate', 'exercise_angina', 'oldpeak', 'st_slope'],
+        defaults: {
+          age: '54',
+          sex: '1',
+          chest_pain_type: '4',
+          resting_bp_s: '132',
+          cholesterol: '210',
+          fasting_blood_sugar: '0',
+          resting_ecg: '0',
+          max_heart_rate: '140',
+          exercise_angina: '0',
+          oldpeak: '0.92',
+          st_slope: '2'
+        },
+        preprocess: (data) => {
+          const d = { ...modelConfigs['heart'].defaults, ...data };
+          const inputs = modelConfigs['heart'].features.map(f => parseFloat(d[f]));
+          return inputs;
+        },
+        normalize: (inputs) => {
+          const mean = [53.72016807, 0.76386555, 3.23277311, 132.15378151, 210.36386555, 0.21344538, 0.69831933, 139.73277311, 0.38739496, 0.92277311, 1.62436975];
+          const scale = [9.35426995, 0.42470575, 0.93508722, 18.3611038, 101.37786644, 0.40973949, 0.86999306, 25.5069116, 0.48715511, 1.08588068, 0.61020266];
+          return inputs.map((val, i) => (val - mean[i]) / scale[i]);
+        },
+        interpret: (prob) => {
+          const predictedClass = prob >= 0.5 ? 'Heart Disease' : 'No Heart Disease';
+          const confidence = Math.abs(prob - 0.5) * 2 * 100;
+          const risk = prob >= 0.5 ? 'high' : 'low';
+          return {class: predictedClass, confidence, risk};
+        }
+      }
+    };
+
+    const featureMeta = {
+      'gender': {type: 'select', options: {'Female': 'Female', 'Male': 'Male', 'Other': 'Other'}},
+      'age': {type: 'number', min: 18, max: 100},
+      'hypertension': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'heart_disease': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'smoking_history': {type: 'select', options: {'No Info': 'No Info', 'current': 'current', 'ever': 'ever', 'former': 'former', 'never': 'never', 'not current': 'not current'}},
+      'bmi': {type: 'number', step: '0.01'},
+      'HbA1c_level': {type: 'number', step: '0.01'},
+      'blood_glucose_level': {type: 'number', min: 80, max: 300},
+      'sbp': {type: 'number'},
+      'dbp': {type: 'number'},
+      'fpg': {type: 'number'},
+      'chol': {type: 'number'},
+      'tri': {type: 'number'},
+      'hdl': {type: 'number'},
+      'ldl': {type: 'number'},
+      'alt': {type: 'number'},
+      'bun': {type: 'number'},
+      'ccr': {type: 'number'},
+      'ffpg': {type: 'number'},
+      'smoking': {type: 'select', options: {'Never': '1', 'Former': '2', 'Current': '3'}},
+      'drinking': {type: 'select', options: {'Never': '1', 'Occasional': '2', 'Regular': '3'}},
+      'family_history': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'ethnicity': {type: 'select', options: {'White': '0', 'Black': '1', 'Asian': '2', 'Hispanic': '3', 'Native American': '4'}},
+      'socioeconomic_status': {type: 'select', options: {'Low': '0', 'Medium': '1', 'High': '2'}},
+      'education_level': {type: 'select', options: {'None': '0', 'High School': '1', 'College': '2', 'Graduate': '3'}},
+      'alcohol_consumption': {type: 'number'},
+      'physical_activity': {type: 'number'},
+      'diet_quality': {type: 'number'},
+      'sleep_quality': {type: 'number'},
+      'family_history_diabetes': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'gestational_diabetes': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'polycystic_ovary_syndrome': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'previous_pre_diabetes': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'systolic_bp': {type: 'number'},
+      'diastolic_bp': {type: 'number'},
+      'fasting_blood_sugar': {type: 'number'},
+      'hba1c': {type: 'number'},
+      'serum_creatinine': {type: 'number'},
+      'bun_levels': {type: 'number'},
+      'cholesterol_total': {type: 'number'},
+      'cholesterol_ldl': {type: 'number'},
+      'cholesterol_hdl': {type: 'number'},
+      'cholesterol_triglycerides': {type: 'number'},
+      'antihypertensive_medications': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'statins': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'antidiabetic_medications': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'frequent_urination': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'excessive_thirst': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'unexplained_weight_loss': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'fatigue_levels': {type: 'number'},
+      'blurred_vision': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'slow_healing_sores': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'tingling_hands_feet': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'quality_of_life_score': {type: 'number'},
+      'heavy_metals_exposure': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'occupational_exposure_chemicals': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'water_quality': {type: 'select', options: {'Good': '0', 'Poor': '1'}},
+      'medical_checkups_frequency': {type: 'number'},
+      'medication_adherence': {type: 'number'},
+      'health_literacy': {type: 'number'},
+      'sex': {type: 'select', options: {'Female': '0', 'Male': '1'}},
+      'chest_pain_type': {type: 'select', options: {'Typical Angina': '1', 'Atypical Angina': '2', 'Non-Anginal Pain': '3', 'Asymptomatic': '4'}},
+      'resting_bp_s': {type: 'number'},
+      'cholesterol': {type: 'number'},
+      'fasting_blood_sugar': {type: 'select', options: {'<=120 mg/dl': '0', '>120 mg/dl': '1'}},
+      'resting_ecg': {type: 'select', options: {'Normal': '0', 'ST-T Abnormal': '1', 'LV Hypertrophy': '2'}},
+      'max_heart_rate': {type: 'number'},
+      'exercise_angina': {type: 'select', options: {'No': '0', 'Yes': '1'}},
+      'oldpeak': {type: 'number', step: '0.1'},
+      'st_slope': {type: 'select', options: {'Up': '1', 'Flat': '2', 'Down': '3'}}
+    };
+
+    const featureArrays = {
+      'diabetes': [...new Set([...modelConfigs['diabetes-8'].features, ...modelConfigs['diabetes-17'].features, ...modelConfigs['diabetes-43'].features])],
+      'heart': modelConfigs['heart'].features
+    };
+
+    // Modal setup
+    const modal = document.getElementById('modal');
+    const modalMessage = document.getElementById('modal-message');
+    const modalButtons = document.getElementById('modal-buttons');
+    const closeSpan = document.querySelector('.close');
+
+    closeSpan.onclick = closeModal;
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+
+    function showMessage(msg) {
+      modalMessage.innerHTML = msg.replace(/\n/g, '<br>');
+      modalButtons.innerHTML = '<button class="btn btn-primary" onclick="closeModal()">OK</button>';
+      modal.style.display = 'block';
+    }
+
+    function showConfirm(msg, callback) {
+      modalMessage.innerHTML = msg.replace(/\n/g, '<br>');
+      modalButtons.innerHTML = `
+        <button class="btn btn-secondary" style="margin-right:10px;" onclick="confirmCallback(false)">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmCallback(true)">Yes</button>
+      `;
+      window.confirmCallback = (result) => {
+        closeModal();
+        callback(result);
+      };
+      modal.style.display = 'block';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    // Initialize application
+    document.addEventListener('DOMContentLoaded', async () => {
+      setupNavigation();
+      setupSearchFunctionality();
+      loadHistory();
+      await loadAllModels();
+    });
+
+    function setupNavigation() {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const tabId = item.dataset.tab;
+          
+          // Update active nav item
+          document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+          item.classList.add('active');
+          
+          // Show corresponding tab content
+          document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
+      });
+    }
+
+    function setupSearchFunctionality() {
+      ['diabetes', 'heart'].forEach(tabId => {
+        const searchInput = document.getElementById(`search-${tabId}`);
+        const resultsDiv = document.getElementById(`search-results-${tabId}`);
+
+        if (!searchInput || !resultsDiv) return;
+
+        searchInput.addEventListener('input', () => {
+          const query = searchInput.value.toLowerCase();
+          if (!query) {
+            resultsDiv.style.display = 'none';
+            return;
+          }
+          const matches = featureArrays[tabId].filter(f => f.toLowerCase().includes(query));
+          resultsDiv.innerHTML = matches.map(f => 
+            `<div class="search-result-item" onclick="addFeature('${tabId}', '${f}')">${formatLabel(f)}</div>`
+          ).join('');
+          resultsDiv.style.display = matches.length ? 'block' : 'none';
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+            resultsDiv.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    function addFeature(tabId, feature) {
+      const form = document.getElementById(`form-${tabId}`);
+      const existing = document.getElementById(`${feature}-${tabId}`);
+      if (existing) return;
+
+      const meta = featureMeta[feature] || {type: 'number'};
+
+      const div = document.createElement('div');
+      div.className = 'form-group';
+      let inputHtml = '';
+      if (meta.type === 'select') {
+        inputHtml = `<select id="${feature}-${tabId}" class="form-control">
+          <option value="">Select</option>
+          ${Object.entries(meta.options).map(([label, value]) => `<option value="${value}">${label}</option>`).join('')}
+        </select>`;
+      } else {
+        let attrs = `type="number" id="${feature}-${tabId}" class="form-control" placeholder="Enter ${formatLabel(feature)}"`;
+        if (meta.min) attrs += ` min="${meta.min}"`;
+        if (meta.max) attrs += ` max="${meta.max}"`;
+        if (meta.step) attrs += ` step="${meta.step}"`;
+        inputHtml = `<input ${attrs}>`;
+      }
+      div.innerHTML = `
+        <label for="${feature}-${tabId}" class="form-label">${formatLabel(feature)}</label>
+        ${inputHtml}
+      `;
+      
+      const lastSection = form.querySelector('.form-section:last-child .form-grid');
+      if (lastSection) {
+        lastSection.appendChild(div);
+      }
+      
+      document.getElementById(`search-${tabId}`).value = '';
+      document.getElementById(`search-results-${tabId}`).style.display = 'none';
+    }
+
+    function formatLabel(str) {
+      return str.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    async function loadAllModels() {
+      const modelNames = Object.keys(modelConfigs);
+      
+      for (const name of modelNames) {
+        try {
+          updateModelStatus(name, 'loading', 'Loading model...');
+          models[name] = await tf.loadGraphModel(modelConfigs[name].path);
+          updateModelStatus(name, 'ready', 'Model loaded successfully');
+          console.log(`Loaded model: ${name}`);
+        } catch (error) {
+          console.error(`Failed to load model ${name}:`, error);
+          updateModelStatus(name, 'error', 'Failed to load model');
+        }
+      }
+    }
+
+    function updateModelStatus(modelName, status, message) {
+      const statusCard = document.getElementById(`status-${modelName}`);
+      if (!statusCard) return;
+      
+      statusCard.className = `model-status-card ${status}`;
+      const indicator = statusCard.querySelector('.status-indicator');
+      const statusText = statusCard.querySelector('p');
+      
+      indicator.className = `status-indicator status-${status}`;
+      statusText.textContent = message;
+    }
+
+    function collectFormData(tabId) {
+      const form = document.getElementById(`form-${tabId}`);
+      if (!form) return {};
+      
+      const data = {};
+      const inputs = form.querySelectorAll('.form-control');
+      
+      inputs.forEach(input => {
+        if (input.value !== '') {
+          const key = input.id.replace(`-${tabId}`, '');
+          data[key] = input.value;
+        }
+      });
+      
+      return data;
+    }
+
+    function validateInputs(tabId, data) {
+      // Basic validation: check ranges if defined in meta
+      for (const [key, value] of Object.entries(data)) {
+        const meta = featureMeta[key];
+        if (meta && meta.type === 'number') {
+          const num = parseFloat(value);
+          if (meta.min && num < meta.min) return `Invalid value for ${formatLabel(key)}: minimum ${meta.min}`;
+          if (meta.max && num > meta.max) return `Invalid value for ${formatLabel(key)}: maximum ${meta.max}`;
+        }
+      }
+      return null;
+    }
+
+    function selectBestDiabetesModel(data) {
+      const diabetesModels = ['diabetes-8', 'diabetes-17', 'diabetes-43'];
+      let bestModel = diabetesModels[0];
+      let maxMatch = 0;
+      diabetesModels.forEach(modelId => {
+        const matched = Object.keys(data).filter(key => modelConfigs[modelId].features.includes(key)).length;
+        if (matched > maxMatch || (matched === maxMatch && modelConfigs[modelId].features.length > modelConfigs[bestModel].features.length)) {
+          maxMatch = matched;
+          bestModel = modelId;
+        }
+      });
+      return bestModel;
+    }
+
+    async function predict(tabId) {
+      let modelId = tabId;
+      const data = collectFormData(tabId);
+      
+      const validationError = validateInputs(tabId, data);
+      if (validationError) {
+        showMessage(validationError);
+        return;
+      }
+
+      if (tabId === 'diabetes') {
+        modelId = selectBestDiabetesModel(data);
+      }
+
+      if (!models[modelId]) {
+        showMessage(`Model ${modelId} is not loaded yet. Please wait for the model to load.`);
+        return;
+      }
+
+      showLoading(tabId, true);
+      
+      try {
+        const config = modelConfigs[modelId];
+        const processedInputs = config.preprocess(data);
+        const normalizedInputs = config.normalize(processedInputs);
+        const inputTensor = tf.tensor2d([normalizedInputs]);
+        const prediction = await models[modelId].predict(inputTensor);
+        const prob = (await prediction.data())[0];
+        const result = config.interpret(prob);
+        
+        displayResult(tabId, result, data, modelId.startsWith('diabetes'));
+        logPrediction(modelId, result, data);
+        
+        inputTensor.dispose();
+        prediction.dispose();
+      } catch (error) {
+        console.error('Prediction error:', error);
+        const resultDiv = document.getElementById(`result-${tabId}`);
+        resultDiv.innerHTML = 
+          `<div class="result-heart-disease">
+            <div class="result-title">Prediction Error</div>
+            <div class="result-details">
+              <div class="result-item">
+                <div class="result-label">Error</div>
+                <div class="result-value">${error.message || 'Failed to make prediction'}</div>
+              </div>
+            </div>
+          </div>`;
+        resultDiv.style.display = 'block';
+      } finally {
+        showLoading(tabId, false);
+      }
+    }
+
+    function showLoading(tabId, show) {
+      const loadingElement = document.getElementById(`loading-${tabId}`);
+      if (loadingElement) {
+        loadingElement.style.display = show ? 'block' : 'none';
+      }
+    }
+
+    function displayResult(tabId, result, data, isDiabetes) {
+      const resultDiv = document.getElementById(`result-${tabId}`);
+      if (!resultDiv) return;
+      
+      let className = '';
+      if (isDiabetes) {
+        className = result.class === 'Diabetic' ? 'result-diabetes' : 
+                   result.class === 'Prediabetic' ? 'result-prediabetes' : 'result-nondiabetes';
+      } else {
+        className = result.class === 'Heart Disease' ? 'result-heart-disease' : 'result-no-heart-disease';
+      }
+      
+      let actions = '';
+      if (isDiabetes) {
+        actions = `<div class="result-actions">
+          <button class="btn btn-secondary" onclick="chainToHeart('${JSON.stringify(data).replace(/"/g, '\\"')}')">Predict Heart Disease</button>
+        </div>`;
+      }
+
+      resultDiv.className = `result-container ${className}`;
+      resultDiv.innerHTML = `
+        <div class="result-title">Prediction Result</div>
+        <div class="result-details">
+          <div class="result-item">
+            <div class="result-label">Diagnosis</div>
+            <div class="result-value">${result.class}</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Confidence</div>
+            <div class="result-value">${result.confidence.toFixed(1)}%</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Risk Level</div>
+            <div class="result-value">${result.risk.charAt(0).toUpperCase() + result.risk.slice(1)}</div>
+          </div>
+        </div>
+        ${actions}
+      `;
+      resultDiv.style.display = 'block';
+      resultDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function chainToHeart(dataStr) {
+      const data = JSON.parse(dataStr);
+      document.querySelector('.nav-item[data-tab="heart"]').click();
+
+      const mappings = {
+        age: 'age-heart',
+        gender: 'sex-heart',
+        sbp: 'resting_bp_s-heart',
+        systolic_bp: 'resting_bp_s-heart',
+        chol: 'cholesterol-heart',
+        cholesterol_total: 'cholesterol-heart',
+        blood_glucose_level: 'fasting_blood_sugar-heart',
+        fpg: 'fasting_blood_sugar-heart',
+        fasting_blood_sugar: 'fasting_blood_sugar-heart'
+      };
+
+      for (const [from, to] of Object.entries(mappings)) {
+        if (data[from]) {
+          let value = data[from];
+          if (to === 'sex-heart') {
+            value = (value === 'Male' || value === '1') ? '1' : '0';
+          }
+          if (to.endsWith('fasting_blood_sugar-heart')) {
+            value = parseFloat(value) > 120 ? '1' : '0';
+          }
+          const elem = document.getElementById(to);
+          if (elem) elem.value = value;
+        }
+      }
+    }
+
+    function logPrediction(modelId, result, data) {
+      const entry = {
+        timestamp: new Date().toLocaleString(),
+        model: modelId,
+        result: result.class,
+        confidence: result.confidence.toFixed(1),
+        risk: result.risk,
+        inputs: {...data}
+      };
+      
+      predictionHistory.unshift(entry);
+      if (predictionHistory.length > 100) predictionHistory.pop();
+      
+      localStorage.setItem('predictionHistory', JSON.stringify(predictionHistory));
+      loadHistory();
+      updateRecentPredictions();
+    }
+
+    function loadHistory() {
+      const tbody = document.getElementById('history-body');
+      const noHistory = document.getElementById('no-history');
+      
+      if (!tbody || !noHistory) return;
+      
+      if (predictionHistory.length === 0) {
+        noHistory.style.display = 'block';
+        tbody.innerHTML = '';
+        return;
+      }
+      
+      noHistory.style.display = 'none';
+      tbody.innerHTML = predictionHistory.slice(0, 20).map((entry, index) => `
+        <tr>
+          <td>${entry.timestamp}</td>
+          <td>${entry.model}</td>
+          <td>${entry.result}</td>
+          <td>${entry.confidence}%</td>
+          <td>
+            <div class="history-actions">
+              <button class="btn btn-secondary" onclick="viewPredictionDetails(${index})" style="padding: 4px 8px; font-size: 12px;">
+                <i class="fas fa-eye"></i> Details
+              </button>
+              <button class="btn btn-danger" onclick="deletePrediction(${index})" style="padding: 4px 8px; font-size: 12px;">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function updateRecentPredictions() {
+      const container = document.getElementById('recent-predictions');
+      if (!container) return;
+      
+      if (predictionHistory.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">No recent predictions</p>';
+        return;
+      }
+      
+      const recent = predictionHistory.slice(0, 5);
+      container.innerHTML = `
+        <div style="display: grid; gap: 12px;">
+          ${recent.map(entry => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f8fafc; border-radius: 6px;">
+              <div>
+                <div style="font-weight: 600;">${entry.model}</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">${entry.timestamp}</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-weight: 600; color: ${entry.result.includes('Disease') || entry.result === 'Diabetic' ? 'var(--danger)' : 'var(--success)'}">${entry.result}</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">${entry.confidence}% confidence</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function viewPredictionDetails(index) {
+      const entry = predictionHistory[index];
+      const inputsStr = Object.entries(entry.inputs)
+        .map(([k, v]) => `${formatLabel(k)}: ${v}`)
+        .join('<br>');
+      const msg = `Prediction Details:<br><br>Model: ${entry.model}<br>Result: ${entry.result}<br>Confidence: ${entry.confidence}%<br>Risk: ${entry.risk}<br><br>Inputs:<br>${inputsStr}`;
+      showMessage(msg);
+    }
+
+    function deletePrediction(index) {
+      showConfirm('Are you sure you want to delete this prediction?', (yes) => {
+        if (yes) {
+          predictionHistory.splice(index, 1);
+          localStorage.setItem('predictionHistory', JSON.stringify(predictionHistory));
+          loadHistory();
+          updateRecentPredictions();
+        }
+      });
+    }
+
+    function clearHistory() {
+      showConfirm('Are you sure you want to clear all prediction history?', (yes) => {
+        if (yes) {
+          predictionHistory = [];
+          localStorage.setItem('predictionHistory', JSON.stringify(predictionHistory));
+          loadHistory();
+          updateRecentPredictions();
+        }
+      });
+    }
+
+    function clearAllForms() {
+      document.querySelectorAll('.form-control').forEach(input => {
+        input.value = '';
+      });
+      
+      document.querySelectorAll('.result-container').forEach(result => {
+        result.style.display = 'none';
+      });
+      
+      showMessage('All forms have been cleared.');
+    }
+
+    function exportHistory() {
+      if (predictionHistory.length === 0) {
+        showMessage('No prediction history to export.');
+        return;
+      }
+      
+      const headers = ['Timestamp', 'Model', 'Result', 'Confidence', 'Risk Level'];
+      const csvContent = [
+        headers.join(','),
+        ...predictionHistory.map(entry => 
+          `"${entry.timestamp}","${entry.model}","${entry.result}","${entry.confidence}%","${entry.risk}"`
+        )
+      ].join('\n');
+      
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `clinical_predictions_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportHistoryPDF() {
+      if (predictionHistory.length === 0) {
+        showMessage('No prediction history to export.');
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(12);
+      doc.text('Prediction History', 10, 10);
+
+      let y = 20;
+      const headers = ['Timestamp', 'Model', 'Result', 'Confidence', 'Risk Level'];
+      headers.forEach((h, i) => doc.text(h, 10 + i * 40, y));
+      y += 10;
+
+      predictionHistory.forEach(entry => {
+        doc.text(entry.timestamp, 10, y);
+        doc.text(entry.model, 50, y);
+        doc.text(entry.result, 90, y);
+        doc.text(`${entry.confidence}%`, 130, y);
+        doc.text(entry.risk, 170, y);
+        y += 10;
+        if (y > 280) {
+          doc.addPage();
+          y = 10;
+        }
+      });
+
+      doc.save(`clinical_predictions_${new Date().toISOString().split('T')[0]}.pdf`);
+    }
+
+    // Initialize recent predictions on load
+    updateRecentPredictions();
+  </script>
+</body>
+</html>
